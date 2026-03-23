@@ -1,0 +1,1629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HackXtreme'26</title>
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;600;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <style>
+        
+        :root {
+            --neon-blue: #00f5ff;
+            --neon-purple: #a855f7;
+            --neon-pink: #f72585;
+            --bg: #06060f;
+            --glass: rgba(255,255,255,0.045);
+            --glass-border: rgba(255,255,255,0.09);
+        }
+
+        *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Exo 2', sans-serif;
+            background: var(--bg);
+            color: #e0e0f0;
+            overflow-x: hidden;
+            line-height: 1.6;
+            cursor: none;
+        }
+
+        /* ── CUSTOM CURSOR ── */
+        #cursor {
+            position: fixed;
+            width: 12px; height: 12px;
+            background: var(--neon-blue);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%,-50%);
+            transition: width .2s, height .2s, background .2s;
+            mix-blend-mode: screen;
+        }
+        #cursor-trail {
+            position: fixed;
+            width: 36px; height: 36px;
+            border: 1.5px solid rgba(0,245,255,0.4);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9998;
+            transform: translate(-50%,-50%);
+            transition: left .12s ease, top .12s ease, width .2s, height .2s, border-color .2s;
+        }
+        body:has(a:hover) #cursor, body:has(button:hover) #cursor { width:20px; height:20px; background:var(--neon-purple); }
+        body:has(a:hover) #cursor-trail, body:has(button:hover) #cursor-trail { width:56px; height:56px; border-color:rgba(168,85,247,0.5); }
+
+        /* ── CANVAS ── */
+        #three-canvas {
+            position: fixed;
+            top:0; left:0;
+            width:100%; height:100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* ── NAV ── */
+        nav {
+            position: fixed;
+            top:0; width:100%;
+            padding: 1.4rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            background: rgba(6,6,15,0.75);
+            backdrop-filter: blur(18px);
+            border-bottom: 1px solid var(--glass-border);
+            transition: padding .3s, background .3s;
+        }
+        nav.scrolled { padding:1rem 5%; background:rgba(6,6,15,0.95); }
+
+        .logo {
+            font-size: 1.7rem;
+            font-weight: 900;
+            letter-spacing: -1px;
+            background: linear-gradient(90deg, var(--neon-blue), var(--neon-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .logo span { -webkit-text-fill-color: rgba(255,255,255,0.9); }
+
+        .nav-links { display:flex; gap:2.2rem; list-style:none; }
+        .nav-links a {
+            color: rgba(224,224,240,0.75);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: .9rem;
+            letter-spacing: .5px;
+            transition: color .25s;
+            position: relative;
+        }
+        .nav-links a::after {
+            content:'';
+            position:absolute; bottom:-4px; left:0;
+            width:0; height:2px;
+            background: var(--neon-blue);
+            transition: width .3s;
+            border-radius: 2px;
+        }
+        .nav-links a:hover { color:var(--neon-blue); }
+        .nav-links a:hover::after { width:100%; }
+
+        .hamburger { display:none; font-size:1.8rem; cursor:pointer; color:var(--neon-blue); }
+
+        /* ── HERO ── */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 0 5%;
+            position: relative;
+        }
+        .hero-content { max-width: 1000px; z-index: 2; }
+.x-logo {
+  width: 60px;
+  height: 70px;
+  stroke: rgb(4, 231, 252);
+  fill: none;
+  stroke-width: 2;
+}
+        .hero-eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(0,245,255,0.07);
+            border: 1px solid rgba(0,245,255,0.2);
+            border-radius: 50px;
+            padding: 6px 18px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: .72rem;
+            letter-spacing: 2px;
+            color: var(--neon-blue);
+            margin-bottom: 24px;
+            text-transform: uppercase;
+        }
+        .hero-eyebrow::before {
+            content:'';
+            width:6px; height:6px;
+            background: var(--neon-blue);
+            border-radius: 50%;
+            animation: blink 1.8s infinite;
+        }
+        @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.2} }
+
+        .hero h1 {
+            font-size: clamp(3.2rem, 9vw, 7rem);
+            font-weight: 900;
+            line-height: .95;
+            letter-spacing: -3px;
+            margin-bottom: 1.2rem;
+            background: linear-gradient(135deg, #fff 0%, var(--neon-blue) 50%, var(--neon-purple) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: drop-shadow(0 0 40px rgba(0,245,255,0.35));
+        }
+        .hero p {
+            font-size: 1.15rem;
+            margin-bottom: 2.5rem;
+            opacity: .8;
+            font-weight: 300;
+            letter-spacing: .5px;
+        }
+
+        /* ── COUNTDOWN ── */
+        .countdown { display:flex; gap:1.2rem; justify-content:center; margin-bottom:2.8rem; flex-wrap:wrap; }
+        .countdown-box {
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(0,245,255,0.15);
+            border-radius: 20px;
+            padding: 1.2rem 1.6rem;
+            min-width: 100px;
+            transition: transform .3s, box-shadow .3s, border-color .3s;
+            position: relative;
+            overflow: hidden;
+        }
+        .countdown-box::before {
+            content:'';
+            position:absolute; top:0; left:0; right:0; height:2px;
+            background: linear-gradient(90deg, var(--neon-blue), var(--neon-purple));
+        }
+        .countdown-box:hover { transform:translateY(-8px); box-shadow:0 0 30px rgba(0,245,255,0.25); border-color:rgba(0,245,255,0.4); }
+        .countdown-box span {
+            display:block;
+            font-size: 2.6rem;
+            font-weight: 700;
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--neon-blue);
+            line-height: 1;
+        }
+        .countdown-box label { font-size:.7rem; opacity:.6; text-transform:uppercase; letter-spacing:2px; margin-top:4px; display:block; }
+
+        /* ── CTA BTN ── */
+        .cta-btn {
+            padding: 1.1rem 3.2rem;
+            font-size: 1.1rem;
+            font-weight: 700;
+            font-family: 'Exo 2', sans-serif;
+            background: linear-gradient(90deg, var(--neon-blue), var(--neon-purple));
+            color: #000;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 0 30px rgba(0,245,255,0.4), inset 0 1px 0 rgba(255,255,255,0.2);
+            transition: all .35s;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+        .cta-btn:hover { transform:scale(1.07) translateY(-2px); box-shadow:0 0 60px rgba(168,85,247,0.6), 0 0 100px rgba(0,245,255,0.2); }
+
+        /* ── SECTIONS ── */
+        section { padding: 6rem 5%; position:relative; }
+        .section-title {
+            font-size: clamp(2rem,4vw,3rem);
+            text-align: center;
+            margin-bottom: 3.5rem;
+            font-weight: 900;
+            letter-spacing: -1px;
+            background: linear-gradient(90deg, var(--neon-blue), var(--neon-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* ── GLASS CARD ── */
+        .glass-card {
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 2.5rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+            transition: transform .4s, box-shadow .4s, border-color .4s;
+            position: relative;
+            overflow: hidden;
+        }
+        .glass-card::after {
+            content:'';
+            position:absolute; inset:0;
+            background: linear-gradient(135deg, rgba(0,245,255,0.04) 0%, transparent 60%);
+            pointer-events:none;
+            opacity: 0;
+            transition: opacity .4s;
+        }
+        .glass-card:hover::after { opacity:1; }
+        .glass-card:hover { transform:translateY(-10px); box-shadow:0 0 50px rgba(0,245,255,0.2); border-color:rgba(0,245,255,0.25); }
+
+        /* ── DETAILS ── */
+        .details-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:2rem; }
+        .detail-item { text-align:center; }
+        .detail-item h3 {
+            font-size: 3.2rem;
+            font-weight: 900;
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--neon-blue);
+            margin-bottom: .4rem;
+            line-height: 1;
+        }
+        .detail-item p { opacity:.7; font-size:.9rem; text-transform:uppercase; letter-spacing:1.5px; }
+        .detail-icon { font-size:2rem; margin-bottom:12px; }
+
+        /* ── ABOUT ── */
+        .about-content { display:grid; grid-template-columns:1fr 1fr; gap:4rem; align-items:center; }
+        .about-text { font-size:1.1rem;text-align: justify; }
+        .about-text p { margin-bottom:1.2rem; opacity:.85; }
+        .about-img {
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 0 60px rgba(168,85,247,0.25);
+            position: relative;
+        }
+        .about-img::before {
+            content:'';
+            position:absolute; inset:0; z-index:1;
+            background: linear-gradient(135deg, rgba(0,245,255,0.08), transparent);
+            pointer-events:none;
+        }
+        .about-img img { width:100%; height:100%; object-fit:cover; display:block; transition:transform .6s; }
+        .about-img:hover img { transform:scale(1.06); }
+
+        /* ── SCHEDULE ── */
+        .timeline { max-width:820px; margin:0 auto; position:relative; }
+        .timeline::before {
+            content:'';
+            position:absolute; left:50px; top:0; bottom:0; width:3px;
+            background: linear-gradient(to bottom, var(--neon-blue), var(--neon-purple));
+            opacity:.25;
+            border-radius:2px;
+        }
+        .timeline-item { display:flex; margin-bottom:2.5rem; position:relative; }
+        .timeline-dot {
+            width:26px; height:26px;
+            background: var(--bg);
+            border: 3px solid var(--neon-blue);
+            border-radius:50%;
+            position:absolute; left:39px; top:24px; z-index:2;
+            box-shadow: 0 0 16px rgba(0,245,255,0.5);
+        }
+        .timeline-content { margin-left:104px; flex:1; line-height:2; }
+        .timeline-content strong { color:var(--neon-blue); display:block; margin-bottom:8px; font-size:1.05rem; }
+        .tl-time { color:var(--neon-blue); font-family:'JetBrains Mono',monospace; font-size:.85rem; font-weight:700; }
+
+        /* ── PRIZES ── */
+        .prizes-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:2rem; }
+        .prize-card { text-align:center; padding:3rem 2rem; }
+        .prize-rank {
+            font-size:1.1rem; padding:.5rem 1.8rem;
+            border-radius:50px; display:inline-block;
+            margin-bottom:1.5rem; font-weight:700; letter-spacing:1px;
+        }
+        .first .prize-rank { background:linear-gradient(135deg,#ffd700,#ffaa00); color:#000; }
+        .second .prize-rank { background:linear-gradient(135deg,#c0c0c0,#888); color:#000; }
+        .third .prize-rank { background:linear-gradient(135deg,#cd7f32,#8b4513); color:#fff; }
+
+        /* ── COORDINATORS ── */
+        .coordinators-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:2rem; }
+        .coordinator-card { text-align:center; }
+        .coord-img-wrap {
+            position:relative; display:inline-block;
+            margin-bottom:1.5rem;
+        }
+        .coord-img-wrap::before {
+            content:'';
+            position:absolute; inset:-4px;
+            border-radius:50%;
+            background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
+            opacity:.4;
+            transition: opacity .4s, inset .4s;
+        }
+        .coordinator-card:hover .coord-img-wrap::before { opacity:.9; inset:-6px; }
+        .coord-img-wrap img {
+            width:150px; height:150px;
+            object-fit:cover;
+            border-radius:50%;
+            border: 3px solid rgba(6,6,15,1);
+            position:relative;
+            display:block;
+            transition: transform .4s;
+        }
+        .coordinator-card:hover .coord-img-wrap img { transform:scale(1.06); }
+
+        /* ══════════════════════════════════════════
+           RESOURCES — ENHANCED
+        ══════════════════════════════════════════ */
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.8rem;
+        }
+
+        .resource-btn {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0;
+            text-decoration: none;
+            color: #fff;
+            border-radius: 24px;
+            overflow: hidden;
+            cursor: pointer;
+            border: 1px solid var(--glass-border);
+            background: rgba(255,255,255,0.04);
+            backdrop-filter: blur(20px);
+            transition: transform .35s, box-shadow .35s, border-color .35s;
+            group: true;
+        }
+        .resource-btn:hover {
+            transform: translateY(-12px) scale(1.02);
+            box-shadow: 0 0 60px rgba(0,245,255,0.25), 0 20px 40px rgba(0,0,0,0.6);
+            border-color: rgba(0,245,255,0.4);
+        }
+
+        /* Animated gradient top bar */
+        .resource-btn::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--neon-blue), var(--neon-purple), var(--neon-pink));
+            background-size: 200% 100%;
+            animation: gradientSlide 3s linear infinite;
+            opacity: 0;
+            transition: opacity .35s;
+        }
+        .resource-btn:hover::before { opacity: 1; }
+        @keyframes gradientSlide {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 200% 50%; }
+        }
+
+        /* Shimmer sweep on hover */
+        .resource-btn::after {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 60%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent);
+            transform: skewX(-20deg);
+            transition: left .6s;
+        }
+        .resource-btn:hover::after { left: 160%; }
+
+        .res-icon-wrap {
+            width: 100%;
+            padding: 2rem 2rem 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        .res-icon-bg {
+            width: 80px; height: 80px;
+            border-radius: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            transition: transform .35s, box-shadow .35s;
+            position: relative;
+        }
+        .resource-btn:hover .res-icon-bg { transform: scale(1.15) rotate(-6deg); }
+
+        .res-icon-bg.blue  { background: rgba(0,245,255,0.1);  box-shadow: 0 0 20px rgba(0,245,255,0.15); }
+        .res-icon-bg.purple{ background: rgba(168,85,247,0.1); box-shadow: 0 0 20px rgba(168,85,247,0.15); }
+        .res-icon-bg.pink  { background: rgba(247,37,133,0.1); box-shadow: 0 0 20px rgba(247,37,133,0.15); }
+        .res-icon-bg.green { background: rgba(0,255,136,0.1);  box-shadow: 0 0 20px rgba(0,255,136,0.15); }
+
+        .resource-btn:hover .res-icon-bg.blue   { box-shadow: 0 0 40px rgba(0,245,255,0.4); }
+        .resource-btn:hover .res-icon-bg.purple  { box-shadow: 0 0 40px rgba(168,85,247,0.4); }
+        .resource-btn:hover .res-icon-bg.pink    { box-shadow: 0 0 40px rgba(247,37,133,0.4); }
+        .resource-btn:hover .res-icon-bg.green   { box-shadow: 0 0 40px rgba(0,255,136,0.4); }
+
+        .res-body {
+            padding: 0 2rem 1.6rem;
+            text-align: center;
+            flex: 1;
+            width: 100%;
+        }
+        .res-name {
+            font-size: 1.05rem;
+            font-weight: 700;
+            letter-spacing: .3px;
+            margin-bottom: 6px;
+            color: #fff;
+        }
+        .res-desc {
+            font-size: .78rem;
+            opacity: .55;
+            margin-bottom: 1.4rem;
+            line-height: 1.5;
+        }
+
+        /* Download pill button */
+        .res-dl-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: .55rem 1.4rem;
+            border-radius: 50px;
+            font-size: .78rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            border: 1.5px solid currentColor;
+            transition: background .3s, color .3s, transform .2s, box-shadow .3s;
+            position: relative;
+            overflow: hidden;
+        }
+        .res-dl-btn.blue   { color: var(--neon-blue); }
+        .res-dl-btn.purple { color: var(--neon-purple); }
+        .res-dl-btn.pink   { color: var(--neon-pink); }
+        .res-dl-btn.green  { color: #00ff88; }
+
+        .resource-btn:hover .res-dl-btn.blue   { background:var(--neon-blue);   color:#000; box-shadow:0 0 20px rgba(0,245,255,0.5); }
+        .resource-btn:hover .res-dl-btn.purple { background:var(--neon-purple); color:#fff; box-shadow:0 0 20px rgba(168,85,247,0.5); }
+        .resource-btn:hover .res-dl-btn.pink   { background:var(--neon-pink);   color:#fff; box-shadow:0 0 20px rgba(247,37,133,0.5); }
+        .resource-btn:hover .res-dl-btn.green  { background:#00ff88;            color:#000; box-shadow:0 0 20px rgba(0,255,136,0.5); }
+
+        .res-dl-btn svg { width:13px; height:13px; fill:currentColor; transition:transform .3s; }
+        .resource-btn:hover .res-dl-btn svg { transform: translateY(2px); }
+
+        /* Download spinner/checkmark animation */
+        .res-dl-btn .dl-text { transition: opacity .2s; }
+        .resource-btn:active .res-dl-btn .dl-text { opacity: 0; }
+
+        /* File size badge */
+        .res-meta {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 10px;
+            font-size: .7rem;
+            opacity: .4;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .res-meta span { display:flex; align-items:center; gap:4px; }
+
+        /* ── FAQ ── */
+        .faq-item { margin-bottom:1rem; border-radius:16px; overflow:hidden; border:1px solid var(--glass-border); transition:border-color .3s; }
+        .faq-item.open { border-color:rgba(0,245,255,0.3); }
+        .faq-question {
+            padding:1.5rem 2rem;
+            background:rgba(255,255,255,0.04);
+            cursor:pointer;
+            display:flex; justify-content:space-between; align-items:center;
+            font-weight:600; transition:background .3s;
+            gap: 12px;
+        }
+        .faq-question:hover { background:rgba(0,245,255,0.07); color:var(--neon-blue); }
+        .faq-icon { font-size:1.5rem; color:var(--neon-blue); transition:transform .35s; flex-shrink:0; }
+        .faq-item.open .faq-icon { transform:rotate(45deg); }
+        .faq-answer {
+            padding:0 2rem; max-height:0; overflow:hidden;
+            transition:max-height .4s ease, padding .2s;
+            background:rgba(255,255,255,0.02);
+            color:rgba(224,224,240,.75); font-size:.95rem;
+        }
+        .faq-item.open .faq-answer { max-height:250px; padding:1.5rem 2rem; }
+
+        /* ── CONTACT ── */
+        .contact-card { max-width:600px; margin:0 auto; text-align:center; }
+        .contact-card h3 { font-size:1.5rem; font-weight:800; margin-bottom:1.5rem; }
+        .contact-info-row { display:flex; align-items:center; justify-content:center; gap:10px; margin:10px 0; opacity:.8; }
+        .c-icon { color:var(--neon-blue); }
+        .maps-btn {
+            margin-top:2rem;
+            padding:1rem 2.8rem;
+            background:transparent;
+            border:2px solid var(--neon-blue);
+            color:var(--neon-blue);
+            border-radius:50px;
+            font-weight:700; font-family:'Exo 2',sans-serif;
+            cursor:pointer; font-size:.95rem;
+            transition:all .35s; letter-spacing:1px;
+            text-transform:uppercase;
+        }
+        .maps-btn:hover { background:var(--neon-blue); color:#000; box-shadow:0 0 40px var(--neon-blue); transform:translateY(-3px); }
+
+        footer {
+            text-align:center; padding:3rem;
+            background:#030308;
+            font-size:.85rem; opacity:.5;
+            border-top:1px solid var(--glass-border);
+        }
+
+        /* ── MODAL ── */
+        .modal {
+            position:fixed; inset:0;
+            background:rgba(0,0,0,0.88);
+            display:none; align-items:center; justify-content:center;
+            z-index:2000; backdrop-filter:blur(8px);
+        }
+        .modal-content {
+            background:rgba(255,255,255,0.07);
+            backdrop-filter:blur(24px);
+            border:1px solid rgba(255,255,255,0.12);
+            border-radius:28px;
+            padding:3rem; width:90%; max-width:460px;
+            position:relative;
+        }
+        .close-modal {
+            position:absolute; top:1.2rem; right:1.5rem;
+            font-size:1.8rem; cursor:pointer; color:#aaa;
+            transition:color .2s;
+        }
+        .close-modal:hover { color:#fff; }
+        .modal input {
+            width:100%; padding:1rem 1.2rem;
+            margin-bottom:1rem;
+            background:rgba(255,255,255,0.08);
+            border:1px solid rgba(255,255,255,0.1);
+            border-radius:12px; color:white;
+            font-family:'Exo 2',sans-serif; font-size:.95rem;
+            outline:none; transition:border-color .3s;
+        }
+        .modal input:focus { border-color:var(--neon-blue); }
+        .modal input::placeholder { opacity:.5; }
+
+        /* ── RESPONSIVE ── */
+        @media(max-width:768px){
+            .nav-links{display:none;}
+            .hamburger{display:block;}
+            .about-content{grid-template-columns:1fr;}
+            .timeline::before{left:20px;}
+            .timeline-dot{left:9px;}
+            .timeline-content{margin-left:60px;}
+            body{cursor:auto;}
+            #cursor,#cursor-trail{display:none;}
+        }
+    </style>
+</head>
+<body>
+
+<!-- CUSTOM CURSOR -->
+<div id="cursor"></div>
+<div id="cursor-trail"></div>
+
+<!-- THREE.JS CANVAS -->
+<canvas id="three-canvas"></canvas>
+
+<!-- NAV -->
+<nav id="navbar">
+    <div class="logo">HACK <span> XTREME'26</span></div>
+    <ul class="nav-links">
+        <li><a href="#details" onclick="scrollTo('details')">Details</a></li>
+        <li><a href="#about" onclick="scrollTo('about')">About</a></li>
+        <li><a href="#schedule" onclick="scrollTo('schedule')">Schedule</a></li>
+        <li><a href="#prizes" onclick="scrollTo('prizes')">Prizes</a></li>
+        <li><a href="#coordinators" onclick="scrollTo('coordinators')">Team</a></li>
+        <li><a href="#problems" onclick="scrollTo('problems')">Problem Statements</a></li>
+        <li><a href="#resources" onclick="scrollTo('resources')">Resources</a></li>
+        <li><a href="#faq" onclick="scrollTo('faq')">FAQ</a></li>
+    </ul>
+    <div class="hamburger" onclick="toggleMenu()">☰</div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+    <div class="hero-content">
+        <div class="hero-eyebrow">Registration Open · March 23, 2026</div>
+        <h1>HACK 
+<svg class="x-logo" viewBox="0 0 100 100">
+  <text x="50%" y="75%" text-anchor="middle" dominant-baseline="middle">X</text>
+</svg>
+TREME'26</h1>
+        
+        <p>24-hour innovation hackathon &nbsp;·&nbsp; April 9–10, 2026 &nbsp;·&nbsp; KRCE</p>
+        <div class="countdown">
+            <div class="countdown-box"><span id="days">00</span><label>Days</label></div>
+            <div class="countdown-box"><span id="hours">00</span><label>Hours</label></div>
+            <div class="countdown-box"><span id="minutes">00</span><label>Mins</label></div>
+            <div class="countdown-box"><span id="seconds">00</span><label>Secs</label></div>
+        </div>
+        <button onclick="window.open('https://forms.gle/mRK6dLwhAyMLbuTY8', '_blank')" class="cta-btn">Register Now</button>
+
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     SPONSORS SECTION — 3D ANIMATED CAROUSEL
+═══════════════════════════════════════════════ -->
+<section id="sponsors" style="background:linear-gradient(180deg,#06060f,#0c0c1e);overflow:hidden;">
+    <h2 class="section-title"> HackXtreme'26 Sponsors</h2>
+    <p style="text-align:center;opacity:.5;margin-top:-2rem;margin-bottom:3rem;font-size:.9rem;letter-spacing:1px;">
+        Backed by the best in the industry
+    </p>
+
+    <!-- 3D TRACK WRAPPER -->
+    <div class="sponsors-scene">
+        <div class="sponsors-track" id="sponsorsTrack">
+
+            <!-- Original 7 -->
+            <div class="sponsor-card">
+                <img src="src/sponsors/cubeai.jpeg" alt="Sponsor 1">
+                <div class="sponsor-name">CubeAI Solutions</div>
+            </div>
+            <div class="sponsor-card">
+                <img src="src/sponsors/greensoft.jpeg" alt="Sponsor 2">
+                <div class="sponsor-name">GreenSoft Technology</div>
+            </div>
+            <div class="sponsor-card">
+                <img src="src/sponsors/ibots.jpeg" alt="Sponsor 3">
+                <div class="sponsor-name">ibots</div>
+            </div>
+            <div class="sponsor-card">
+                <img src="src/sponsors/mediaWaves.png" alt="Sponsor 4">
+                <div class="sponsor-name">Media Wave Technologies</div>
+            </div>
+            <div class="sponsor-card">
+                <img src="src/sponsors/pobo.jpeg" alt="Sponsor 5">
+                <div class="sponsor-name">POBO Technologies</div>
+            </div>
+            <div class="sponsor-card">
+                <img src="src/sponsors/propelsoft.jpeg" alt="Sponsor 6">
+                <div class="sponsor-name">Propel Soft</div>
+            </div>
+            <div class="sponsor-card">
+                <img src="src/sponsors/jivi.png" alt="Sponsor 7">
+                <div class="sponsor-name">JIVI Solutions</div>
+            </div>
+
+            
+ <div class="sponsor-card">
+                <img src="src/sponsors/cubeai.jpeg" alt="Sponsor 1">
+                <div class="sponsor-name">CubeAI Solutions</div>
+            </div>
+            <div class="sponsor-card">
+                <img src="src/sponsors/greensoft.jpeg" alt="Sponsor 2">
+                <div class="sponsor-name">GreenSoft Technology</div>
+            </div>
+            <div class="sponsor-card">
+                <img src="src/sponsors/ibots.jpeg" alt="Sponsor 3">
+                <div class="sponsor-name">ibots</div>
+            </div>
+            <div class="sponsor-card">
+                <img src="src/sponsors/mediaWaves.png" alt="Sponsor 4">
+                <div class="sponsor-name">Media Wave Technologies</div>
+            </div>
+            <div class="sponsor-card">
+                <img src="src/sponsors/pobo.jpeg" alt="Sponsor 5">
+                <div class="sponsor-name">POBO Technologies</div>
+            </div>
+            <div class="sponsor-card">
+                <img src="src/sponsors/propelsoft.jpeg" alt="Sponsor 6">
+                <div class="sponsor-name">Propel Soft</div>
+            </div>
+            <div class="sponsor-card">
+                <img src="src/sponsors/jivi.png" alt="Sponsor 7">
+                <div class="sponsor-name">JIVI Solutions</div>
+            </div>
+             <div class="sponsor-card">
+                <img src="src/sponsors/cubeai.jpeg" alt="Sponsor 1">
+                <div class="sponsor-name">CubeAI Solutions</div>
+            </div>
+            <div class="sponsor-card">
+                <img src="src/sponsors/greensoft.jpeg" alt="Sponsor 2">
+                <div class="sponsor-name">GreenSoft Technology</div>
+            </div>
+            <div class="sponsor-card">
+                <img src="src/sponsors/ibots.jpeg" alt="Sponsor 3">
+                <div class="sponsor-name">ibots</div>
+            </div>
+            <div class="sponsor-card">
+                <img src="src/sponsors/mediaWaves.png" alt="Sponsor 4">
+                <div class="sponsor-name">Media Wave Technologies</div>
+            </div>
+            <div class="sponsor-card">
+                <img src="src/sponsors/pobo.jpeg" alt="Sponsor 5">
+                <div class="sponsor-name">POBO Technologies</div>
+            </div>
+            <div class="sponsor-card">
+                <img src="src/sponsors/propelsoft.jpeg" alt="Sponsor 6">
+                <div class="sponsor-name">Propel Soft</div>
+            </div>
+            <div class="sponsor-card">
+                <img src="src/sponsors/jivi.png" alt="Sponsor 7">
+                <div class="sponsor-name">JIVI Solutions</div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Fade edge masks -->
+    <div class="sponsors-fade-left"></div>
+    <div class="sponsors-fade-right"></div>
+</section>
+
+<!-- ── SPONSORS CSS ── paste inside your <style> block ── -->
+<style>
+    
+/* Scene wrapper */
+.sponsors-scene {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    padding: 40px 0 20px;
+    perspective: 1200px;
+}
+
+/* Scrolling track */
+.sponsors-track {
+    display: flex;
+    gap: 28px;
+    width: max-content;
+    animation: sponsorScroll 28s linear infinite;
+    will-change: transform;
+}
+.sponsors-track:hover { animation-play-state: paused; }
+
+@keyframes sponsorScroll {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+/* Individual sponsor card */
+.sponsor-card {
+    flex-shrink: 0;
+    width: 150px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    cursor: pointer;
+
+    /* 3D base state */
+    transform-style: preserve-3d;
+    transform: perspective(600px) rotateY(0deg) rotateX(0deg) translateZ(0px);
+    transition: transform .45s cubic-bezier(.23,1,.32,1), filter .45s;
+    filter: grayscale(60%) brightness(0.75);
+}
+.sponsor-card:hover {
+    filter: grayscale(0%) brightness(1.15);
+    transform: perspective(600px) rotateY(-8deg) rotateX(6deg) translateZ(30px) scale(1.08);
+    animation-play-state: paused;
+    z-index: 10;
+}
+
+/* Square logo box */
+.sponsor-card img {
+    width: 110px;
+    height: 110px;
+    object-fit: cover;
+    border-radius: 22px;
+    border: 1px solid rgba(255,255,255,0.09);
+    background: rgba(255,255,255,0.04);
+    display: block;
+
+    /* Inner 3D shine layer */
+    box-shadow:
+        0 0 0 1px rgba(255,255,255,0.05),
+        0 8px 24px rgba(0,0,0,0.5),
+        inset 0 1px 0 rgba(255,255,255,0.1);
+    transition:
+        box-shadow .45s,
+        border-color .45s;
+}
+.sponsor-card:hover img {
+    border-color: rgba(0,245,255,0.45);
+    box-shadow:
+        0 0 0 1px rgba(0,245,255,0.2),
+        0 0 30px rgba(0,245,255,0.25),
+        0 20px 40px rgba(0,0,0,0.6),
+        inset 0 1px 0 rgba(255,255,255,0.15);
+}
+
+/* Sponsor name label */
+.sponsor-name {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .72rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: rgba(224,224,240,0.4);
+    transition: color .35s;
+    text-align: center;
+}
+.sponsor-card:hover .sponsor-name { color: var(--neon-blue); }
+
+/* Edge fade masks */
+.sponsors-fade-left,
+.sponsors-fade-right {
+    position: absolute;
+    top: 0; bottom: 0;
+    width: 140px;
+    z-index: 2;
+    pointer-events: none;
+}
+.sponsors-fade-left {
+    left: 0;
+    background: linear-gradient(to right, #06060f 0%, transparent 100%);
+}
+.sponsors-fade-right {
+    right: 0;
+    background: linear-gradient(to left, #0c0c1e 0%, transparent 100%);
+}
+
+/* Tier label badges (optional — remove if not needed) */
+.sponsor-tier {
+    text-align: center;
+    margin-bottom: 2.5rem;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    justify-content: center;
+}
+.sponsor-tier-line {
+    flex: 1;
+    max-width: 120px;
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(255,255,255,0.12));
+}
+.sponsor-tier-line.right {
+    background: linear-gradient(to left, transparent, rgba(255,255,255,0.12));
+}
+.sponsor-tier-badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .68rem;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--neon-blue);
+    padding: 4px 14px;
+    border: 1px solid rgba(0,245,255,0.2);
+    border-radius: 50px;
+    background: rgba(0,245,255,0.05);
+}
+
+@media (max-width: 600px) {
+    .sponsor-card { width: 110px; }
+    .sponsor-card img { width: 88px; height: 88px; border-radius: 16px; }
+    .sponsors-fade-left, .sponsors-fade-right { width: 60px; }
+}
+</style>
+<!-- DETAILS -->
+<section id="details">
+    <h2 class="section-title">Hackathon at a Glance</h2>
+    <div class="details-grid">
+        <div class="glass-card detail-item">
+            <div class="detail-icon">🏆</div>
+            <h3>₹45K</h3>
+            <p>Win big with cash prizes</p>
+        </div>
+        <div class="glass-card detail-item">
+            <div class="detail-icon">👥</div>
+            <h3>50+</h3>
+            <p>3 - 4 members per team</p>
+        </div>
+        <div class="glass-card detail-item">
+            <div class="detail-icon">⏱</div>
+            <h3>24</h3>
+            <p>Hours</p>
+        </div>
+        <div class="glass-card detail-item">
+            <div class="detail-icon">💡</div>
+            <h3 style="font-size:1.8rem;line-height:1.2">AI-Powered Innovation Across All Domain</h3>
+            <p>Theme</p>
+        </div>
+    </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about" style="background:linear-gradient(180deg,#06060f,#0c0c1e)">
+    <h2 class="section-title">About HACKXTREME'26</h2>
+    <div class="about-content">
+        <div class="about-text glass-card">
+            <p>HackXtreme'26 is a 24-hour hackathon that brings together developers, designers, and innovators to build impactful solutions.</p>
+            <p>With the theme <strong style="color:var(--neon-blue)">AI-Powered Innovation Across All Domains</strong> ,participants will use artificial intelligence to solve real-world problems across industries.</p>
+            <p>Beyond competition, top teams gain internship opportunities with sponsoring companies, turning ideas into real-world impact.</p>
+            <p>Build fast. Think smart. Create the future.</p>
+        </div>
+        <div class="about-img">
+            <img src="src/krce.jpeg" alt="Innovate University Campus">
+        </div>
+    </div>
+</section>
+
+<!-- SCHEDULE -->
+<section id="schedule">
+    <h2 class="section-title">Event Schedule</h2>
+    <div class="timeline">
+        <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content glass-card">
+                <strong>📅 Day 1 — April 9</strong>
+                <span class="tl-time">09:00 AM</span> Registration &amp; Breakfast<br>
+                <span class="tl-time">10:00 AM</span> Opening Ceremony &amp; Keynote<br>
+                <span class="tl-time">11:00 AM</span> Ideation Workshop &amp; Team Formation<br>
+                <span class="tl-time">12:00 PM</span> Hacking Begins 🚀<br>
+                <span class="tl-time">08:00 PM</span> Midnight Snack + Mentor Hours
+            </div>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content glass-card">
+                <strong>📅 Day 2 — April 10</strong>
+                <span class="tl-time">09:00 AM</span> Continue Hacking<br>
+                <span class="tl-time">02:00 PM</span> Progress Check-ins<br>
+                <span class="tl-time">07:00 PM</span> Project Submissions Close<br>
+                <span class="tl-time">08:00 PM</span> Final Presentations &amp; Judging<br>
+                <span class="tl-time">10:00 PM</span> Closing Ceremony &amp; Awards 🎉
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- PRIZES -->
+<section id="prizes" style="background:linear-gradient(180deg,#0c0c1e,#06060f)">
+    <h2 class="section-title">Prizes &amp; Rewards</h2>
+    <div class="prizes-grid">
+        
+        <div class="glass-card prize-card first" style="border-color:rgba(255,215,0,0.3)">
+            <div class="prize-rank">1ST PLACE</div>
+            <h3 style="font-size:3rem;margin:1rem 0;color:#ffd700">₹20,000</h3>
+            
+        </div>
+        <div class="glass-card prize-card second">
+            <div class="prize-rank">2ND PLACE</div>
+            <h3 style="font-size:2.4rem;margin:1rem 0;color:var(--neon-blue)">₹15,000</h3>
+           
+        </div>
+        <div class="glass-card prize-card third">
+            <div class="prize-rank">3RD PLACE</div>
+            <h3 style="font-size:2rem;margin:1rem 0;color:var(--neon-purple)">₹10,000</h3>
+            
+        </div>
+    </div>
+    <p style="text-align:center;margin-top:2.5rem;opacity:.6;font-size:.9rem">
+✦ Prize Pool Worth ₹45,000 · Internship Offers from Sponsors · Exclusive Rewards for Top Innovators
+</p>
+</section>
+
+<!-- COORDINATORS -->
+<section id="coordinators">
+    <h2 class="section-title">Meet  the  Team</h2>
+    <div class="coordinators-grid">
+        <div class="glass-card coordinator-card">
+            <div class="coord-img-wrap"><img src="https://picsum.photos/id/64/400/400" alt="Dr. Priya Sharma"></div>
+            <h3>Dr. Priya Sharma</h3>
+            <p style="color:var(--neon-blue);font-size:.85rem;margin:.5rem 0">Computer Science · Faculty Lead</p>
+            <p style="opacity:.7;font-size:.9rem">priya.sharma@innovate.edu</p>
+        </div>
+        <div class="glass-card coordinator-card">
+            <div class="coord-img-wrap"><img src="https://picsum.photos/id/29/400/400" alt="Rahul Mehta"></div>
+            <h3>Rahul Mehta</h3>
+            <p style="color:var(--neon-blue);font-size:.85rem;margin:.5rem 0">AI Research · Student Lead</p>
+            <p style="opacity:.7;font-size:.9rem">+91 98765 43210</p>
+        </div>
+        <div class="glass-card coordinator-card">
+            <div class="coord-img-wrap"><img src="https://picsum.photos/id/201/400/400" alt="Sneha Kapoor"></div>
+            <h3>Sneha Kapoor</h3>
+            <p style="color:var(--neon-blue);font-size:.85rem;margin:.5rem 0">Design · Operations Head</p>
+            <p style="opacity:.7;font-size:.9rem">sneha@innovate.edu</p>
+        </div>
+        <div class="glass-card coordinator-card">
+            <div class="coord-img-wrap"><img src="https://picsum.photos/id/1005/400/400" alt="Arjun Rao"></div>
+            <h3>Arjun Rao</h3>
+            <p style="color:var(--neon-blue);font-size:.85rem;margin:.5rem 0">Logistics · Mentor Coord.</p>
+            <p style="opacity:.7;font-size:.9rem">+91 87654 32109</p>
+        </div>
+    </div>
+</section>
+<!-- ═══════════════════════════════════════════════
+     PROBLEM STATEMENTS SECTION
+═══════════════════════════════════════════════ -->
+<section id="problems" style="background:linear-gradient(180deg,#0c0c1e,#06060f)">
+    <h2 class="section-title">Problem Statements</h2>
+
+    <div style="max-width:900px;margin:0 auto;display:flex;flex-direction:column;gap:14px;">
+
+        <!-- Problem 1 -->
+        <div class="ps-row">
+            <div class="ps-left">
+                <span class="ps-num">01</span>
+                <div>
+                    <div class="ps-title">The Omni-Care AI Hospital Ecosystem</div>
+                    
+                </div>
+            </div>
+            <a href="src/problemstatements/qubeai1.pdf" target="_blank" class="ps-btn blue">
+                <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6zm-1 1.5L18.5 9H13V3.5zM8 17h8v1.5H8V17zm0-3h8v1.5H8V14zm0-3h5v1.5H8V11z"/></svg>
+                View PDF
+            </a>
+        </div>
+
+        <!-- Problem 2 -->
+        <div class="ps-row">
+            <div class="ps-left">
+                <span class="ps-num">02</span>
+                <div>
+                    <div class="ps-title">The "Nano-Voice" Agent for Smart Commerce</div>
+                    
+                </div>
+            </div>
+            <a href="src/problemstatements/qubeai2.pdf" target="_blank" class="ps-btn purple">
+                <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6zm-1 1.5L18.5 9H13V3.5zM8 17h8v1.5H8V17zm0-3h8v1.5H8V14zm0-3h5v1.5H8V11z"/></svg>
+                View PDF
+            </a>
+        </div>
+
+        <!-- Problem 3 -->
+        <div class="ps-row">
+            <div class="ps-left">
+                <span class="ps-num">03</span>
+                <div>
+                    <div class="ps-title">The "Eco-Pulse" Edge AI for Smart Cities</div>
+                    
+                </div>
+            </div>
+            <a href="src/problemstatements/qubeai3.pdf" target="_blank" class="ps-btn pink">
+                <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6zm-1 1.5L18.5 9H13V3.5zM8 17h8v1.5H8V17zm0-3h8v1.5H8V14zm0-3h5v1.5H8V11z"/></svg>
+                View PDF
+            </a>
+        </div>
+
+        <!-- Problem 4 -->
+        <div class="ps-row">
+            <div class="ps-left">
+                <span class="ps-num">04</span>
+                <div>
+                    <div class="ps-title">Large Medical File Upload System using React, Python & AWS S3</div>
+                    
+                </div>
+            </div>
+            <a href="src/problemstatements/pobo1.pdf" target="_blank" class="ps-btn green">
+                <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6zm-1 1.5L18.5 9H13V3.5zM8 17h8v1.5H8V17zm0-3h8v1.5H8V14zm0-3h5v1.5H8V11z"/></svg>
+                View PDF
+            </a>
+        </div>
+
+        <!-- Problem 5 -->
+        <div class="ps-row">
+            <div class="ps-left">
+                <span class="ps-num">05</span>
+                <div>
+                    <div class="ps-title">Predictive Analytics for Crop Yield Optimization</div>
+                    <div class="ps-track">Track: AgriTech · Difficulty: Medium</div>
+                </div>
+            </div>
+            <a href="problem5.pdf" target="_blank" class="ps-btn blue">
+                <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6zm-1 1.5L18.5 9H13V3.5zM8 17h8v1.5H8V17zm0-3h8v1.5H8V14zm0-3h5v1.5H8V11z"/></svg>
+                View PDF
+            </a>
+        </div>
+
+        <!-- Problem 6 -->
+        <div class="ps-row">
+            <div class="ps-left">
+                <span class="ps-num">06</span>
+                <div>
+                    <div class="ps-title">Blockchain-Based Academic Credential Verifier</div>
+                    <div class="ps-track">Track: EdTech · Difficulty: Hard</div>
+                </div>
+            </div>
+            <a href="problem6.pdf" target="_blank" class="ps-btn purple">
+                <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6zm-1 1.5L18.5 9H13V3.5zM8 17h8v1.5H8V17zm0-3h8v1.5H8V14zm0-3h5v1.5H8V11z"/></svg>
+                View PDF
+            </a>
+        </div>
+
+    </div>
+</section>
+
+<!-- Problem Statements CSS — paste inside your <style> block -->
+<style>
+.ps-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 20px 28px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 18px;
+    backdrop-filter: blur(16px);
+    transition: transform .3s, border-color .3s, box-shadow .3s;
+    position: relative;
+    overflow: hidden;
+}
+.ps-row::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+    background: linear-gradient(to bottom, var(--neon-blue), var(--neon-purple));
+    opacity: 0;
+    transition: opacity .3s;
+}
+.ps-row:hover {
+    transform: translateX(6px);
+    border-color: rgba(0,245,255,0.25);
+    box-shadow: 0 0 30px rgba(0,245,255,0.1);
+}
+.ps-row:hover::before { opacity: 1; }
+
+.ps-left {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex: 1;
+    min-width: 0;
+}
+.ps-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: rgba(0,245,255,0.35);
+    flex-shrink: 0;
+    width: 28px;
+}
+.ps-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #e0e0f0;
+    line-height: 1.3;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.ps-track {
+    font-size: .72rem;
+    color: rgba(224,224,240,0.45);
+    margin-top: 4px;
+    letter-spacing: .5px;
+    font-family: 'JetBrains Mono', monospace;
+}
+
+/* PDF Button */
+.ps-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: .55rem 1.3rem;
+    border-radius: 50px;
+    font-size: .78rem;
+    font-weight: 700;
+    letter-spacing: .8px;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: 1.5px solid currentColor;
+    flex-shrink: 0;
+    transition: background .25s, color .25s, box-shadow .25s, transform .2s;
+    white-space: nowrap;
+}
+.ps-btn svg {
+    width: 14px; height: 14px;
+    fill: currentColor;
+    flex-shrink: 0;
+}
+.ps-btn.blue   { color: var(--neon-blue); }
+.ps-btn.purple { color: var(--neon-purple); }
+.ps-btn.pink   { color: var(--neon-pink); }
+.ps-btn.green  { color: #00ff88; }
+
+.ps-btn.blue:hover   { background:var(--neon-blue);   color:#000; box-shadow:0 0 20px rgba(0,245,255,0.5);   transform:scale(1.05); }
+.ps-btn.purple:hover { background:var(--neon-purple); color:#fff; box-shadow:0 0 20px rgba(168,85,247,0.5); transform:scale(1.05); }
+.ps-btn.pink:hover   { background:var(--neon-pink);   color:#fff; box-shadow:0 0 20px rgba(247,37,133,0.5); transform:scale(1.05); }
+.ps-btn.green:hover  { background:#00ff88;            color:#000; box-shadow:0 0 20px rgba(0,255,136,0.5);  transform:scale(1.05); }
+
+@media (max-width: 600px) {
+    .ps-row { flex-direction: column; align-items: flex-start; gap: 14px; padding: 18px 20px; }
+    .ps-title { white-space: normal; }
+    .ps-row:hover { transform: translateY(-4px) translateX(0); }
+}
+</style>
+
+<!-- ═══════════════════════════════════
+     RESOURCES — ENHANCED
+═══════════════════════════════════ -->
+<section id="resources" style="background:linear-gradient(180deg,#06060f,#0c0c1e)">
+    <h2 class="section-title">Resources</h2>
+    <div class="resources-grid">
+
+        <!-- Submission Template -->
+        <a href="#" onclick="handleDownload(event,'Submission Template')" class="resource-btn">
+            <div class="res-icon-wrap">
+                <div class="res-icon-bg blue">📄</div>
+            </div>
+            <div class="res-body">
+                <div class="res-name">Submission Template</div>
+                <div class="res-desc">Official project submission format accepted by judges</div>
+                <div class="res-dl-btn blue">
+                    <svg viewBox="0 0 24 24"><path d="M12 15l-5-5h3V4h4v6h3l-5 5zm-7 4h14v-2H5v2z"/></svg>
+                    <span class="dl-text">Download PDF</span>
+                </div>
+                
+            </div>
+        </a>
+
+        <!-- Rule Book -->
+        <a href="#" onclick="handleDownload(event,'Rule Book')" class="resource-btn">
+            <div class="res-icon-wrap">
+                <div class="res-icon-bg purple">📋</div>
+            </div>
+            <div class="res-body">
+                <div class="res-name">Rule Book</div>
+                <div class="res-desc">Complete guidelines, judging criteria &amp; code of conduct</div>
+                <div class="res-dl-btn purple">
+                    <svg viewBox="0 0 24 24"><path d="M12 15l-5-5h3V4h4v6h3l-5 5zm-7 4h14v-2H5v2z"/></svg>
+                    <span class="dl-text">Download PDF</span>
+                </div>
+                
+            </div>
+        </a>
+
+        <!-- Brochure -->
+        <a href="#" onclick="handleDownload(event,'Brochure')" class="resource-btn">
+            <div class="res-icon-wrap">
+                <div class="res-icon-bg pink">📘</div>
+            </div>
+            <div class="res-body">
+                <div class="res-name">Event Brochure</div>
+                <div class="res-desc">Share with your friends — sponsorship &amp; event overview</div>
+                <div class="res-dl-btn pink">
+                    <svg viewBox="0 0 24 24"><path d="M12 15l-5-5h3V4h4v6h3l-5 5zm-7 4h14v-2H5v2z"/></svg>
+                    <span class="dl-text">Download PDF</span>
+                </div>
+                
+            </div>
+        </a>
+
+        <!-- Timeline -->
+        <a href="#" onclick="handleDownload(event,'Event Timeline')" class="resource-btn">
+            <div class="res-icon-wrap">
+                <div class="res-icon-bg green">🗓</div>
+            </div>
+            <div class="res-body">
+                <div class="res-name">Detailed Timeline</div>
+                <div class="res-desc">Full hour-by-hour schedule for both days of the hackathon</div>
+                <div class="res-dl-btn green">
+                    <svg viewBox="0 0 24 24"><path d="M12 15l-5-5h3V4h4v6h3l-5 5zm-7 4h14v-2H5v2z"/></svg>
+                    <span class="dl-text">Download PDF</span>
+                </div>
+                
+            </div>
+        </a>
+
+    </div>
+</section>
+
+
+<!-- FAQ -->
+<section id="faq">
+    <h2 class="section-title">Frequently Asked Questions</h2>
+    <div style="max-width:800px;margin:0 auto">
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFAQ(this)">
+                <span>Who can participate?</span><span class="faq-icon">+</span>
+            </div>
+            <div class="faq-answer">Students from any college/university (undergraduate &amp; postgraduate) are welcome. Teams of 3–4 members.</div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFAQ(this)">
+                <span>What do winners get?</span><span class="faq-icon">+</span>
+            </div>
+            <div class="faq-answer">Winning teams receive prizes, recognition, and internship opportunities with sponsoring companies.</div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFAQ(this)">
+                <span>Is the event offline or online?</span><span class="faq-icon">+</span>
+            </div>
+            <div class="faq-answer">Fully offline at K.Ramakrishnan College Of Engineering. This is an in-person experience — online participation is not available for this edition.</div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFAQ(this)">
+                <span>What should I bring?</span><span class="faq-icon">+</span>
+            </div>
+            <div class="faq-answer">Laptop, charger,ID card and enthusiasm! Everything else — food, Wi-Fi, power strips, and sleeping arrangements — will be provided on campus.</div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFAQ(this)">
+                <span>What are the dates of HackXtreme’26?</span><span class="faq-icon">+</span>
+            </div>
+            <div class="faq-answer">HackXtreme’26 will be held on March 7th – 8th, 2026, as a continuous 24-hour hackathon.
+
+</div>
+        </div>
+    </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" style="background:#06060f">
+    <h2 class="section-title">Get in Touch</h2>
+    <div class="contact-card glass-card">
+        <h3>K.Ramakrishnan College Of Engineering</h3>
+        <div class="contact-info-row"><span class="c-icon"></span><span>📍 Samayapuram - Kariyamanickam Rd,Tiruchirappalli, Tamil Nadu 621112</span></div>
+        <div class="contact-info-row"><span class="c-icon">✉️</span><span>sivamanikandan2312@gmail.com</span></div>
+        <div class="contact-info-row"><span class="c-icon">📞</span><span>+91 97913 12219</span></div>
+        <div class="contact-info-row"><span class="c-icon">🌐</span><span>www.krce.ac.in</span></div>
+        <button onclick="window.open('https://www.google.com/maps/dir//K+Ramakrishnan+College+of+Engineering+(KRCE),+Samayapuram+-+Kariyamanickam+Rd,+Tamil+Nadu+621112/@10.8734836,78.6912219,11.44z/data=!4m8!4m7!1m0!1m5!1m1!1s0x3baaf7316aaaaaab:0xb794422e551a89ad!2m2!1d78.7381613!2d10.9290962?entry=ttu&g_ep=EgoyMDI2MDMxOC4xIKXMDSoASAFQAw%3D%3D','_blank')" class="maps-btn">🗺 Open in Google Maps</button>
+    </div>
+</section>
+
+<footer>© 2026 NEXUS HACK &nbsp;·&nbsp; Made with ❤️ for the next generation of innovators &nbsp;·&nbsp; Innovate University</footer>
+
+
+
+<script>
+/* ═══════════════════════════════════════════════════
+   THREE.JS — INTERACTIVE PARTICLE BACKGROUND
+   Mouse moves the camera / hover brightens particles
+═══════════════════════════════════════════════════ */
+(function() {
+    const canvas = document.getElementById('three-canvas');
+    const scene  = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(70, innerWidth/innerHeight, 0.1, 3000);
+    camera.position.z = 900;
+
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias:true, alpha:true });
+    renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+    renderer.setSize(innerWidth, innerHeight);
+    renderer.setClearColor(0x000000, 0);
+
+    // ── PARTICLES ──
+    const COUNT = innerWidth < 768 ? 1400 : 3800;
+    const geo   = new THREE.BufferGeometry();
+    const pos   = new Float32Array(COUNT * 3);
+    const col   = new Float32Array(COUNT * 3);
+    const vel   = new Float32Array(COUNT * 3); // drift velocities
+
+    for (let i = 0; i < COUNT; i++) {
+        const r = 800 + Math.random() * 400;
+        const θ = Math.random() * Math.PI * 2;
+        const φ = Math.acos(2 * Math.random() - 1);
+        pos[i*3]   = r * Math.sin(φ) * Math.cos(θ);
+        pos[i*3+1] = r * Math.sin(φ) * Math.sin(θ);
+        pos[i*3+2] = r * Math.cos(φ) - 400;
+        // drift
+        vel[i*3]   = (Math.random()-.5)*.04;
+        vel[i*3+1] = (Math.random()-.5)*.04;
+        vel[i*3+2] = (Math.random()-.5)*.02;
+        // color: blue↔purple gradient
+        const t = Math.random();
+        col[i*3]   = t * 0.66;        // R
+        col[i*3+1] = 0.9 - t * 0.5;  // G
+        col[i*3+2] = 1.0;             // B
+    }
+
+    geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+    geo.setAttribute('color',    new THREE.BufferAttribute(col, 3));
+
+    const mat = new THREE.PointsMaterial({
+        size: 3.2,
+        vertexColors: true,
+        transparent: true,
+        opacity: 0.72,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false,
+    });
+
+    const pts = new THREE.Points(geo, mat);
+    scene.add(pts);
+
+    // ── WIREFRAME RINGS ──
+    function addRing(radius, color, opacity) {
+        const g = new THREE.TorusGeometry(radius, 1.2, 2, 120);
+        const m = new THREE.MeshBasicMaterial({ color, wireframe:true, transparent:true, opacity });
+        const mesh = new THREE.Mesh(g, m);
+        scene.add(mesh);
+        return mesh;
+    }
+    const ring1 = addRing(320, 0x00f5ff, 0.06);
+    const ring2 = addRing(500, 0xa855f7, 0.04);
+    const ring3 = addRing(680, 0x00f5ff, 0.03);
+    ring1.rotation.x = 1.1;
+    ring2.rotation.x = 0.5; ring2.rotation.y = 0.8;
+    ring3.rotation.z = 0.6;
+
+    // ── MOUSE TRACKING ──
+    let mouseX = 0, mouseY = 0;
+    let targetRotX = 0, targetRotY = 0;
+    let isHovering = false;
+    let hoverX = 0, hoverY = 0;
+
+    document.addEventListener('mousemove', e => {
+        mouseX = (e.clientX / innerWidth  - 0.5);
+        mouseY = (e.clientY / innerHeight - 0.5);
+        hoverX = e.clientX;
+        hoverY = e.clientY;
+    });
+
+    // Detect hovering over interactive elements → burst effect
+    document.addEventListener('mouseover', e => {
+        const el = e.target.closest('.glass-card,.resource-btn,.cta-btn,.countdown-box');
+        isHovering = !!el;
+    });
+    document.addEventListener('mouseout', e => {
+        const el = e.target.closest('.glass-card,.resource-btn,.cta-btn,.countdown-box');
+        if (el) isHovering = false;
+    });
+
+    // ── ANIMATE ──
+    let frame = 0;
+    function animate() {
+        requestAnimationFrame(animate);
+        frame++;
+
+        // Smooth camera parallax follow cursor
+        targetRotY += (mouseX * 0.18 - targetRotY) * 0.04;
+        targetRotX += (mouseY * 0.10 - targetRotX) * 0.04;
+        pts.rotation.y = targetRotY;
+        pts.rotation.x = targetRotX;
+
+        // Hover: push nearby particles away (repulsion effect)
+        if (isHovering) {
+            mat.opacity += (0.95 - mat.opacity) * 0.06;
+            mat.size     += (5.5  - mat.size)   * 0.06;
+        } else {
+            mat.opacity += (0.72  - mat.opacity) * 0.04;
+            mat.size     += (3.2  - mat.size)   * 0.04;
+        }
+
+        // Slow autonomous drift per particle
+        const posArr = geo.attributes.position.array;
+        for (let i = 0; i < COUNT; i++) {
+            posArr[i*3]   += vel[i*3];
+            posArr[i*3+1] += vel[i*3+1];
+            posArr[i*3+2] += vel[i*3+2];
+            // Bounce back if too far
+            const dist = Math.sqrt(posArr[i*3]**2 + posArr[i*3+1]**2 + posArr[i*3+2]**2);
+            if (dist > 1200 || dist < 600) {
+                vel[i*3]   *= -1;
+                vel[i*3+1] *= -1;
+                vel[i*3+2] *= -1;
+            }
+        }
+        geo.attributes.position.needsUpdate = true;
+
+        // Slowly rotate rings
+        ring1.rotation.z += 0.001;
+        ring2.rotation.y += 0.0008;
+        ring3.rotation.x += 0.0006;
+
+        // Breathing scale on rings
+        const breathe = 1 + Math.sin(frame * 0.008) * 0.015;
+        ring1.scale.setScalar(breathe);
+        ring3.scale.setScalar(1/breathe);
+
+        renderer.render(scene, camera);
+    }
+    animate();
+
+    // ── CLICK RIPPLE on canvas ──
+    document.addEventListener('click', e => {
+        // Flash brightness
+        const origOp = mat.opacity;
+        mat.opacity = Math.min(1, mat.opacity + 0.3);
+        setTimeout(() => { mat.opacity = origOp; }, 250);
+    });
+
+    window.addEventListener('resize', () => {
+        camera.aspect = innerWidth/innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(innerWidth, innerHeight);
+    });
+})();
+
+/* ─── CUSTOM CURSOR ─── */
+const cur  = document.getElementById('cursor');
+const trail = document.getElementById('cursor-trail');
+let cx=0, cy=0;
+document.addEventListener('mousemove', e => {
+    cx = e.clientX; cy = e.clientY;
+    cur.style.left = cx+'px'; cur.style.top = cy+'px';
+    trail.style.left = cx+'px'; trail.style.top = cy+'px';
+});
+
+/* ─── COUNTDOWN ─── */
+(function(){
+    const deadline = new Date("2026-03-31T23:59:59").getTime();
+    function tick(){
+        const diff = Math.max(0, deadline - Date.now());
+        document.getElementById('days').textContent    = String(Math.floor(diff/86400000)).padStart(2,'0');
+        document.getElementById('hours').textContent   = String(Math.floor((diff%86400000)/3600000)).padStart(2,'0');
+        document.getElementById('minutes').textContent = String(Math.floor((diff%3600000)/60000)).padStart(2,'0');
+        document.getElementById('seconds').textContent = String(Math.floor((diff%60000)/1000)).padStart(2,'0');
+    }
+    tick(); setInterval(tick, 1000);
+})();
+
+/* ─── NAV SCROLL ─── */
+window.addEventListener('scroll', () => {
+    document.getElementById('navbar').classList.toggle('scrolled', scrollY > 80);
+});
+
+/* ─── SMOOTH SCROLL ─── */
+function scrollTo(id) {
+    document.getElementById(id)?.scrollIntoView({behavior:'smooth'});
+    document.querySelector('.nav-links').style.display = '';
+}
+
+/* ─── MOBILE MENU ─── */
+function toggleMenu() {
+    const links = document.querySelector('.nav-links');
+    const open  = links.style.display === 'flex';
+    Object.assign(links.style, open ? {display:''} : {
+        display:'flex', flexDirection:'column',
+        position:'fixed', top:'72px', left:'5%',
+        background:'rgba(6,6,15,0.98)', backdropFilter:'blur(20px)',
+        width:'90%', padding:'2rem', borderRadius:'20px',
+        border:'1px solid rgba(255,255,255,0.1)',
+        zIndex:'999', gap:'1.5rem'
+    });
+}
+
+/* ─── FAQ ─── */
+function toggleFAQ(el) {
+    const item  = el.parentElement;
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
+}
+
+/* ─── MODAL ─── */
+function openModal()  { document.getElementById('regModal').style.display='flex'; }
+function closeModal() { document.getElementById('regModal').style.display='none'; }
+document.getElementById('regModal').addEventListener('click', e => { if(e.target.id==='regModal') closeModal(); });
+document.addEventListener('keydown', e => { if(e.key==='Escape') closeModal(); });
+function submitForm(e) {
+    e.preventDefault();
+    closeModal();
+    // Toast notification
+    const toast = document.createElement('div');
+    toast.textContent = '🎉 Registration successful! Check your email shortly.';
+    Object.assign(toast.style, {
+        position:'fixed', bottom:'32px', left:'50%', transform:'translateX(-50%)',
+        background:'linear-gradient(90deg,#00f5ff22,#a855f722)',
+        border:'1px solid rgba(0,245,255,0.4)',
+        backdropFilter:'blur(20px)',
+        color:'#fff', padding:'1rem 2rem', borderRadius:'50px',
+        zIndex:'9999', fontFamily:"'Exo 2',sans-serif",
+        fontWeight:'600', fontSize:'.95rem',
+        boxShadow:'0 0 40px rgba(0,245,255,0.25)',
+        transition:'opacity .5s',
+    });
+    document.body.appendChild(toast);
+    setTimeout(() => { toast.style.opacity='0'; setTimeout(()=>toast.remove(),500); }, 3500);
+}
+
+/* ─── RESOURCE DOWNLOAD ─── */
+function handleDownload(e, name) {
+    e.preventDefault();
+    const btn = e.currentTarget;
+    const dlBtn = btn.querySelector('.res-dl-btn');
+    const txt   = dlBtn.querySelector('.dl-text');
+    txt.textContent = '⏳ Preparing...';
+    setTimeout(() => {
+        txt.textContent = '✅ Downloaded!';
+        setTimeout(() => { txt.textContent = 'Download PDF'; }, 2000);
+    }, 900);
+}
+</script>
+</body>
+</html>
