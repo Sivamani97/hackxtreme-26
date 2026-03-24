@@ -89,6 +89,16 @@
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
+        .neon-x {
+    color: transparent;
+    -webkit-text-stroke: 1px #00f7ff;
+
+    text-shadow:
+        0 0 5px #00f7ff,
+        0 0 10px #46a8ab,
+        0 0 20px #00f7ff,
+        0 0 40px #f3f5f6;
+}
         .logo span { -webkit-text-fill-color: rgba(255,255,255,0.9); }
 
         .nav-links { display:flex; gap:2.2rem; list-style:none; }
@@ -125,13 +135,7 @@
             position: relative;
         }
         .hero-content { max-width: 1000px; z-index: 2; }
-.x-logo {
-  width: 60px;
-  height: 70px;
-  stroke: rgb(4, 231, 252);
-  fill: none;
-  stroke-width: 2;
-}
+
         .hero-eyebrow {
             display: inline-flex;
             align-items: center;
@@ -630,16 +634,14 @@
     </ul>
     <div class="hamburger" onclick="toggleMenu()">☰</div>
 </nav>
-
+<br><br>
 <!-- HERO -->
 <section class="hero" id="hero">
     <div class="hero-content">
         <div class="hero-eyebrow">Registration Open · March 23, 2026</div>
-        <h1>HACK 
-<svg class="x-logo" viewBox="0 0 100 100">
-  <text x="50%" y="75%" text-anchor="middle" dominant-baseline="middle">X</text>
-</svg>
-TREME'26</h1>
+        <h1>
+  HACK <span class="neon-x">X</span> TREME'26
+</h1>
         
         <p>24-hour innovation hackathon &nbsp;·&nbsp; April 9–10, 2026 &nbsp;·&nbsp; KRCE</p>
         <div class="countdown">
@@ -648,7 +650,6 @@ TREME'26</h1>
             <div class="countdown-box"><span id="minutes">00</span><label>Mins</label></div>
             <div class="countdown-box"><span id="seconds">00</span><label>Secs</label></div>
         </div>
-        <button onclick="window.open('https://forms.gle/mRK6dLwhAyMLbuTY8', '_blank')" class="cta-btn">Register Now</button>
 
     </div>
 </section>
@@ -657,7 +658,7 @@ TREME'26</h1>
      SPONSORS SECTION — 3D ANIMATED CAROUSEL
 ═══════════════════════════════════════════════ -->
 <section id="sponsors" style="background:linear-gradient(180deg,#06060f,#0c0c1e);overflow:hidden;">
-    <h2 class="section-title"> HackXtreme'26 Sponsors</h2>
+    <h2 class="section-title"> Problem Statement Providers</h2>
     <p style="text-align:center;opacity:.5;margin-top:-2rem;margin-bottom:3rem;font-size:.9rem;letter-spacing:1px;">
         Backed by the best in the industry
     </p>
@@ -936,13 +937,13 @@ TREME'26</h1>
 
 <!-- ABOUT -->
 <section id="about" style="background:linear-gradient(180deg,#06060f,#0c0c1e)">
-    <h2 class="section-title">About HACKXTREME'26</h2>
+    <h2 class="section-title">About HackXtreme'26</h2>
     <div class="about-content">
         <div class="about-text glass-card">
-            <p>HackXtreme'26 is a 24-hour hackathon that brings together developers, designers, and innovators to build impactful solutions.</p>
-            <p>With the theme <strong style="color:var(--neon-blue)">AI-Powered Innovation Across All Domains</strong> ,participants will use artificial intelligence to solve real-world problems across industries.</p>
-            <p>Beyond competition, top teams gain internship opportunities with sponsoring companies, turning ideas into real-world impact.</p>
-            <p>Build fast. Think smart. Create the future.</p>
+            <p>✦ HackXtreme'26 is a 24-hour hackathon that brings together developers, designers, and innovators to build impactful solutions.</p>
+            <p>✦ With the theme <strong style="color:var(--neon-blue)">AI-Powered Innovation Across All Domains</strong> ,participants will use artificial intelligence to solve real-world problems across industries.</p>
+            <p>✦ Beyond competition, top teams gain internship opportunities with sponsoring companies, turning ideas into real-world impact.</p>
+            <p>✦ Build fast. Think smart. Create the future.</p>
         </div>
         <div class="about-img">
             <img src="src/krce.jpeg" alt="Innovate University Campus">
@@ -1010,28 +1011,28 @@ TREME'26</h1>
     <h2 class="section-title">Meet  the  Team</h2>
     <div class="coordinators-grid">
         <div class="glass-card coordinator-card">
-            <div class="coord-img-wrap"><img src="https://picsum.photos/id/64/400/400" alt="Dr. Priya Sharma"></div>
-            <h3>Dr. Priya Sharma</h3>
-            <p style="color:var(--neon-blue);font-size:.85rem;margin:.5rem 0">Computer Science · Faculty Lead</p>
-            <p style="opacity:.7;font-size:.9rem">priya.sharma@innovate.edu</p>
+            <div class="coord-img-wrap"><img src="src/coordinator/senthil.png" alt="Senthil Raja ManoKar"></div>
+            <h3>Mr B Senthil Raja ManoKar</h3>
+            <p style="color:var(--neon-blue);font-size:.85rem;margin:.5rem 0"><b>Information Technology </b><br> Assistant Professor</p>
+            <p style="opacity:.7;font-size:.9rem">📞+91 97913 12219</p>
         </div>
         <div class="glass-card coordinator-card">
-            <div class="coord-img-wrap"><img src="https://picsum.photos/id/29/400/400" alt="Rahul Mehta"></div>
-            <h3>Rahul Mehta</h3>
-            <p style="color:var(--neon-blue);font-size:.85rem;margin:.5rem 0">AI Research · Student Lead</p>
-            <p style="opacity:.7;font-size:.9rem">+91 98765 43210</p>
+            <div class="coord-img-wrap"><img src="src/coordinator/kasthuri.png" alt="Kasthuri Rengan"></div>
+            <h3>Mr Kasthuri Rengan P</h3><br>
+            <p style="color:var(--neon-blue);font-size:.85rem;margin:.5rem 0"><b>Computer Science</b> <br> Assistant Professor</p>
+            <p style="opacity:.7;font-size:.9rem">📞 +91 98426 12131</p>
         </div>
         <div class="glass-card coordinator-card">
-            <div class="coord-img-wrap"><img src="https://picsum.photos/id/201/400/400" alt="Sneha Kapoor"></div>
-            <h3>Sneha Kapoor</h3>
-            <p style="color:var(--neon-blue);font-size:.85rem;margin:.5rem 0">Design · Operations Head</p>
-            <p style="opacity:.7;font-size:.9rem">sneha@innovate.edu</p>
+            <div class="coord-img-wrap"><img src="src/coordinator/SIVAMANIKANDAN P.jpg" alt="Sivamanikandan"></div>
+            <h3>Mr Sivamanikandan P</h3>
+            <p style="color:var(--neon-blue);font-size:.85rem;margin:.5rem 0"> <b>Information Technology </b><br> Student Coordinator</p>
+            <p style="opacity:.7;font-size:.9rem">📞 +91 85318 07705</p>
         </div>
         <div class="glass-card coordinator-card">
-            <div class="coord-img-wrap"><img src="https://picsum.photos/id/1005/400/400" alt="Arjun Rao"></div>
-            <h3>Arjun Rao</h3>
-            <p style="color:var(--neon-blue);font-size:.85rem;margin:.5rem 0">Logistics · Mentor Coord.</p>
-            <p style="opacity:.7;font-size:.9rem">+91 87654 32109</p>
+            <div class="coord-img-wrap"><img src="src/coordinator/Namasivayen.jpeg" alt="Namasivayen"></div>
+            <h3>Mr.Namasivayen N S</h3>
+            <p style="color:var(--neon-blue);font-size:.85rem;margin:.5rem 0"><b>Computer Science</b> <br> Student Coordinator</p>
+            <p style="opacity:.7;font-size:.9rem">📞 +91 77084 16954</p>
         </div>
     </div>
 </section>
@@ -1049,14 +1050,15 @@ TREME'26</h1>
                 <span class="ps-num">01</span>
                 <div>
                     <div class="ps-title">The Omni-Care AI Hospital Ecosystem</div>
-                    
+                    <div class="ps-track">CubeAISolutions Tec Pvt Lmt.</div>
                 </div>
             </div>
-            <a href="src/problemstatements/qubeai1.pdf" target="_blank" class="ps-btn blue">
+            <a href="src/problemstatements/cubeai1.pdf" target="_blank" class="ps-btn blue">
                 <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6zm-1 1.5L18.5 9H13V3.5zM8 17h8v1.5H8V17zm0-3h8v1.5H8V14zm0-3h5v1.5H8V11z"/></svg>
                 View PDF
             </a>
         </div>
+        
 
         <!-- Problem 2 -->
         <div class="ps-row">
@@ -1064,10 +1066,11 @@ TREME'26</h1>
                 <span class="ps-num">02</span>
                 <div>
                     <div class="ps-title">The "Nano-Voice" Agent for Smart Commerce</div>
-                    
+                    <div class="ps-track">CubeAISolutions Tec Pvt Lmt.</div>
+
                 </div>
             </div>
-            <a href="src/problemstatements/qubeai2.pdf" target="_blank" class="ps-btn purple">
+            <a href="src/problemstatements/cubeai2.pdf" target="_blank" class="ps-btn purple">
                 <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6zm-1 1.5L18.5 9H13V3.5zM8 17h8v1.5H8V17zm0-3h8v1.5H8V14zm0-3h5v1.5H8V11z"/></svg>
                 View PDF
             </a>
@@ -1079,10 +1082,11 @@ TREME'26</h1>
                 <span class="ps-num">03</span>
                 <div>
                     <div class="ps-title">The "Eco-Pulse" Edge AI for Smart Cities</div>
-                    
+                    <div class="ps-track">CubeAISolutions Tec Pvt Lmt.</div>
+
                 </div>
             </div>
-            <a href="src/problemstatements/qubeai3.pdf" target="_blank" class="ps-btn pink">
+            <a href="src/problemstatements/cubeai3.pdf" target="_blank" class="ps-btn pink">
                 <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6zm-1 1.5L18.5 9H13V3.5zM8 17h8v1.5H8V17zm0-3h8v1.5H8V14zm0-3h5v1.5H8V11z"/></svg>
                 View PDF
             </a>
@@ -1093,8 +1097,8 @@ TREME'26</h1>
             <div class="ps-left">
                 <span class="ps-num">04</span>
                 <div>
-                    <div class="ps-title">Large Medical File Upload System using React, Python & AWS S3</div>
-                    
+                    <div class="ps-title">Large Medical File Upload System using React,<br> Python & AWS S3</div>
+                    <div class="ps-track">POBO Technologies</div>
                 </div>
             </div>
             <a href="src/problemstatements/pobo1.pdf" target="_blank" class="ps-btn green">
@@ -1108,11 +1112,11 @@ TREME'26</h1>
             <div class="ps-left">
                 <span class="ps-num">05</span>
                 <div>
-                    <div class="ps-title">Predictive Analytics for Crop Yield Optimization</div>
-                    <div class="ps-track">Track: AgriTech · Difficulty: Medium</div>
+                    <div class="ps-title">FRS-ChatBot Training Challenge</div>
+                    <div class="ps-track">JIVI Enterprise Workforce Management Solution</div>
                 </div>
             </div>
-            <a href="problem5.pdf" target="_blank" class="ps-btn blue">
+            <a href="src/problemstatements/JIVI/JIVI 2.pdf" target="_blank" class="ps-btn blue">
                 <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6zm-1 1.5L18.5 9H13V3.5zM8 17h8v1.5H8V17zm0-3h8v1.5H8V14zm0-3h5v1.5H8V11z"/></svg>
                 View PDF
             </a>
@@ -1123,16 +1127,443 @@ TREME'26</h1>
             <div class="ps-left">
                 <span class="ps-num">06</span>
                 <div>
-                    <div class="ps-title">Blockchain-Based Academic Credential Verifier</div>
-                    <div class="ps-track">Track: EdTech · Difficulty: Hard</div>
+                    <div class="ps-title">College Operations Management System</div>
+                    <div class="ps-track">JIVI Enterprise Workforce Management Solution</div>
+
                 </div>
             </div>
-            <a href="problem6.pdf" target="_blank" class="ps-btn purple">
+            <a href="src/problemstatements/JIVI/JIVI 1.pdf" target="_blank" class="ps-btn purple">
+                <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6zm-1 1.5L18.5 9H13V3.5zM8 17h8v1.5H8V17zm0-3h8v1.5H8V14zm0-3h5v1.5H8V11z"/></svg>
+                View PDF
+            </a>
+        </div>
+<!-- Problem 1 -->
+        <div class="ps-row">
+            <div class="ps-left">
+                <span class="ps-num">07</span>
+                <div>
+                    <div class="ps-title">Smart Education – a concept that describes learning in the digital age. It enables<br> learners to learn more effectively, efficiently, flexibly, and comfortably.</div>
+                    <div class="ps-track">GreenSoft Technology, Inc.</div>
+
+                </div>
+            </div>
+            <a href="src/problemstatements/Green Soft Tech/Hackathon docx-1.pdf" target="_blank" class="ps-btn blue">
+                <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6zm-1 1.5L18.5 9H13V3.5zM8 17h8v1.5H8V17zm0-3h8v1.5H8V14zm0-3h5v1.5H8V11z"/></svg>
+                View PDF
+            </a>
+        </div>
+        
+
+        <!-- Problem 2 -->
+        <div class="ps-row">
+            <div class="ps-left">
+                <span class="ps-num">08</span>
+                <div>
+                    <div class="ps-title">Provide ideas in decentralized and distributed ledger technology used to <br>store digital information that powers cryptocurrencies and NFTs, and can <br>radically change multiple sectors.</div>
+                    <div class="ps-track">GreenSoft Technology, Inc.</div>
+
+                </div>
+            </div>
+            <a href="src/problemstatements/Green Soft Tech/Hackathon docx-2.pdf" target="_blank" class="ps-btn purple">
                 <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6zm-1 1.5L18.5 9H13V3.5zM8 17h8v1.5H8V17zm0-3h8v1.5H8V14zm0-3h5v1.5H8V11z"/></svg>
                 View PDF
             </a>
         </div>
 
+        <!-- Problem 3 -->
+        <div class="ps-row">
+            <div class="ps-left">
+                <span class="ps-num">09</span>
+                <div>
+                    <div class="ps-title">Automated system for career advancements of faculty in higher education.</div>
+                    <div class="ps-track">GreenSoft Technology, Inc.</div>
+
+                </div>
+            </div>
+            <a href="src/problemstatements/Green Soft Tech/Hackathon docx-3.pdf" target="_blank" class="ps-btn pink">
+                <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6zm-1 1.5L18.5 9H13V3.5zM8 17h8v1.5H8V17zm0-3h8v1.5H8V14zm0-3h5v1.5H8V11z"/></svg>
+                View PDF
+            </a>
+        </div>
+
+        <!-- Problem 4 -->
+        <div class="ps-row">
+            <div class="ps-left">
+                <span class="ps-num">10</span>
+                <div>
+                    <div class="ps-title">Smart tourist safety monitoring & incident response system using AI, geo-fencing, <br>and blockchain-based digital ID.</div>
+                    <div class="ps-track">GreenSoft Technology, Inc.</div>
+
+                </div>
+            </div>
+            <a href="src/problemstatements/Green Soft Tech/Hackathon docx-4.pdf" target="_blank" class="ps-btn green">
+                <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6zm-1 1.5L18.5 9H13V3.5zM8 17h8v1.5H8V17zm0-3h8v1.5H8V14zm0-3h5v1.5H8V11z"/></svg>
+                View PDF
+            </a>
+        </div>
+
+
+
+        <!-- Problem 6 -->
+        <div class="ps-row">
+            <div class="ps-left">
+                <span class="ps-num">11</span>
+                <div>
+                    <div class="ps-title">Transformer-based end-to-end Web Application Firewall (WAF) pipeline.</div>
+                    <div class="ps-track">GreenSoft Technology, Inc.</div>
+
+                </div>
+            </div>
+            <a href="src/problemstatements/Green Soft Tech/Hackathon docx-5.pdf" target="_blank" class="ps-btn purple">
+                <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6zm-1 1.5L18.5 9H13V3.5zM8 17h8v1.5H8V17zm0-3h8v1.5H8V14zm0-3h5v1.5H8V11z"/></svg>
+                View PDF
+            </a>
+        </div>
+<!-- Problem 1 -->
+        <div class="ps-row">
+            <div class="ps-left">
+                <span class="ps-num">12</span>
+                <div>
+                    <div class="ps-title">AI-enabled cyber incident & safety web portal.</div>
+                    <div class="ps-track">GreenSoft Technology, Inc.</div>
+
+                </div>
+            </div>
+            <a href="src/problemstatements/Green Soft Tech/Hackathon docx-6.pdf" target="_blank" class="ps-btn blue">
+                <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6zm-1 1.5L18.5 9H13V3.5zM8 17h8v1.5H8V17zm0-3h8v1.5H8V14zm0-3h5v1.5H8V11z"/></svg>
+                View PDF
+            </a>
+        </div>
+        
+
+        <!-- Problem 2 -->
+        <div class="ps-row">
+            <div class="ps-left">
+                <span class="ps-num">13</span>
+                <div>
+                    <div class="ps-title">Domain hosting details:Many suspicious websites appear to be hosted on Cloudflare <br>when checked via WHOIS. However, Cloudflare states they only provide services<br> like SSL certificates, not hosting.</div>
+                    <div class="ps-track">GreenSoft Technology, Inc.</div>
+
+                </div>
+            </div>
+            <a href="src/problemstatements/Green Soft Tech/Hackathon docx-7.pdf" target="_blank" class="ps-btn purple">
+                <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6zm-1 1.5L18.5 9H13V3.5zM8 17h8v1.5H8V17zm0-3h8v1.5H8V14zm0-3h5v1.5H8V11z"/></svg>
+                View PDF
+            </a>
+        </div>
+
+        <!-- Problem 3 -->
+        <div class="ps-row">
+            <div class="ps-left">
+                <span class="ps-num">14</span>
+                <div>
+                    <div class="ps-title">Fake social media accounts and their detection.</div>
+                    <div class="ps-track">GreenSoft Technology, Inc.</div>
+
+                </div>
+            </div>
+            <a href="src/problemstatements/Green Soft Tech/Hackathon docx-8.pdf" target="_blank" class="ps-btn pink">
+                <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6zm-1 1.5L18.5 9H13V3.5zM8 17h8v1.5H8V17zm0-3h8v1.5H8V14zm0-3h5v1.5H8V11z"/></svg>
+                View PDF
+            </a>
+        </div>
+
+        <!-- Problem 4 -->
+        <div class="ps-row">
+            <div class="ps-left">
+                <span class="ps-num">15</span>
+                <div>
+                    <div class="ps-title">Agent-less Windows system vulnerability and network scanner.</div>
+                    <div class="ps-track">GreenSoft Technology, Inc.</div>
+
+                </div>
+            </div>
+            <a href="src/problemstatements/Green Soft Tech/Hackathon docx-9.pdf" target="_blank" class="ps-btn green">
+                <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6zm-1 1.5L18.5 9H13V3.5zM8 17h8v1.5H8V17zm0-3h8v1.5H8V14zm0-3h5v1.5H8V11z"/></svg>
+                View PDF
+            </a>
+        </div>
+
+        <!-- Problem 5 -->
+        <div class="ps-row">
+            <div class="ps-left">
+                <span class="ps-num">16</span>
+                <div>
+                    <div class="ps-title">How can AI provide critical tools for monitoring environmental changes, promoting<br> sustainable practices, and mitigating pollution globally?</div>
+                    <div class="ps-track">GreenSoft Technology, Inc.</div>
+
+                </div>
+            </div>
+            <a href="src/problemstatements/Green Soft Tech/Hackathon docx-10.pdf" target="_blank" class="ps-btn blue">
+                <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6zm-1 1.5L18.5 9H13V3.5zM8 17h8v1.5H8V17zm0-3h8v1.5H8V14zm0-3h5v1.5H8V11z"/></svg>
+                View PDF
+            </a>
+        </div>
+
+        <!-- Problem 6 -->
+        <div class="ps-row">
+            <div class="ps-left">
+                <span class="ps-num">17</span>
+                <div>
+                    <div class="ps-title">How can AI build a more inclusive, efficient, and secure financial system for individuals<br>, businesses, and institutions?</div>
+                    <div class="ps-track">GreenSoft Technology, Inc.</div>
+
+                </div>
+            </div>
+            <a href="src/problemstatements/Green Soft Tech/Hackathon docx-11.pdf" target="_blank" class="ps-btn purple">
+                <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6zm-1 1.5L18.5 9H13V3.5zM8 17h8v1.5H8V17zm0-3h8v1.5H8V14zm0-3h5v1.5H8V11z"/></svg>
+                View PDF
+            </a>
+        </div>
+<!-- Problem 1 -->
+        <div class="ps-row">
+            <div class="ps-left">
+                <span class="ps-num">18</span>
+                <div>
+                    <div class="ps-title">How can AI protect digital identities, secure data, and build trustworthy online<br> environments?</div>
+                    <div class="ps-track">GreenSoft Technology, Inc.</div>
+
+                    
+                </div>
+            </div>
+            <a href="src/problemstatements/Green Soft Tech/Hackathon docx-12.pdf" target="_blank" class="ps-btn blue">
+                <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6zm-1 1.5L18.5 9H13V3.5zM8 17h8v1.5H8V17zm0-3h8v1.5H8V14zm0-3h5v1.5H8V11z"/></svg>
+                View PDF
+            </a>
+        </div>
+        
+
+        <!-- Problem 2 -->
+        <div class="ps-row">
+            <div class="ps-left">
+                <span class="ps-num">19</span>
+                <div>
+                    <div class="ps-title">AI-driven solution for quick, accurate, and effortless patient record analysis and <br>monitoring.</div>
+                    <div class="ps-track">GreenSoft Technology, Inc.</div>
+
+                </div>
+            </div>
+            <a href="src/problemstatements/Green Soft Tech/Hackathon docx-13.pdf" target="_blank" class="ps-btn purple">
+                <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6zm-1 1.5L18.5 9H13V3.5zM8 17h8v1.5H8V17zm0-3h8v1.5H8V14zm0-3h5v1.5H8V11z"/></svg>
+                View PDF
+            </a>
+        </div>
+
+        <!-- Problem 3 -->
+        <div class="ps-row">
+            <div class="ps-left">
+                <span class="ps-num">20</span>
+                <div>
+                    <div class="ps-title">VR- and AI-powered physiotherapy simulator for rehabilitation assistance.</div>
+                    <div class="ps-track">GreenSoft Technology, Inc.</div>
+
+                </div>
+            </div>
+            <a href="src/problemstatements/Green Soft Tech/Hackathon docx-14.pdf" target="_blank" class="ps-btn pink">
+                <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6zm-1 1.5L18.5 9H13V3.5zM8 17h8v1.5H8V17zm0-3h8v1.5H8V14zm0-3h5v1.5H8V11z"/></svg>
+                View PDF
+            </a>
+        </div>
+
+        <!-- Problem 4 -->
+        <div class="ps-row">
+            <div class="ps-left">
+                <span class="ps-num">21</span>
+                <div>
+                    <div class="ps-title">Enhancing the exam re-evaluation system to improve efficiency and transparency</div>
+                    <div class="ps-track">GreenSoft Technology, Inc.</div>
+
+                </div>
+            </div>
+            <a href="src/problemstatements/Green Soft Tech/Hackathon docx-15.pdf" target="_blank" class="ps-btn green">
+                <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6zm-1 1.5L18.5 9H13V3.5zM8 17h8v1.5H8V17zm0-3h8v1.5H8V14zm0-3h5v1.5H8V11z"/></svg>
+                View PDF
+            </a>
+        </div>
+
+        <!-- Problem 5 -->
+        <div class="ps-row">
+            <div class="ps-left">
+                <span class="ps-num">22</span>
+                <div>
+                    <div class="ps-title">Creating a unified digital education platform from kindergarten to postgraduate level.</div>
+                    <div class="ps-track">GreenSoft Technology, Inc.</div>
+
+                </div>
+            </div>
+            <a href="src/problemstatements/Green Soft Tech/Hackathon docx-16.pdf" target="_blank" class="ps-btn blue">
+                <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6zm-1 1.5L18.5 9H13V3.5zM8 17h8v1.5H8V17zm0-3h8v1.5H8V14zm0-3h5v1.5H8V11z"/></svg>
+                View PDF
+            </a>
+        </div>
+
+        <!-- Problem 6 -->
+        <div class="ps-row">
+            <div class="ps-left">
+                <span class="ps-num">23</span>
+                <div>
+                    <div class="ps-title">IoT based Crop Root Health Monitoring for Agriculture</div>
+                    <div class="ps-track">Media Wave Technologies</div>
+
+                </div>
+            </div>
+            <a href="src/problemstatements/Media Wave/Hackathon docx-17.pdf" target="_blank" class="ps-btn purple">
+                <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6zm-1 1.5L18.5 9H13V3.5zM8 17h8v1.5H8V17zm0-3h8v1.5H8V14zm0-3h5v1.5H8V11z"/></svg>
+                View PDF
+            </a>
+        </div>
+<!-- Problem 1 -->
+        <div class="ps-row">
+            <div class="ps-left">
+                <span class="ps-num">24</span>
+                <div>
+                    <div class="ps-title">Regenerative Energy Recovery from Electric Trains for EV Charging Infrastructure</div>
+                    <div class="ps-track">Media Wave Technologies</div>
+                </div>
+            </div>
+            <a href="src/problemstatements/Media Wave/Hackathon docx-18.pdf" target="_blank" class="ps-btn blue">
+                <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6zm-1 1.5L18.5 9H13V3.5zM8 17h8v1.5H8V17zm0-3h8v1.5H8V14zm0-3h5v1.5H8V11z"/></svg>
+                View PDF
+            </a>
+        </div>
+        
+
+        <!-- Problem 2 -->
+        <div class="ps-row">
+            <div class="ps-left">
+                <span class="ps-num">25</span>
+                <div>
+                    <div class="ps-title">Digital Twin for Smart Cities using AI </div>
+                    <div class="ps-track">Media Wave Technologies</div>
+                </div>
+            </div>
+            <a href="src/problemstatements/Media Wave/Hackathon docx-19.pdf" target="_blank" class="ps-btn purple">
+                <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6zm-1 1.5L18.5 9H13V3.5zM8 17h8v1.5H8V17zm0-3h8v1.5H8V14zm0-3h5v1.5H8V11z"/></svg>
+                View PDF
+            </a>
+        </div>
+
+        <!-- Problem 3 -->
+        <div class="ps-row">
+            <div class="ps-left">
+                <span class="ps-num">26</span>
+                <div>
+                    <div class="ps-title">AI-Powered Digital Smell Detection System</div>
+                    <div class="ps-track">Media Wave Technologies</div>
+                </div>
+            </div>
+            <a href="src/problemstatements/Media Wave/Hackathon docx-20.pdf" target="_blank" class="ps-btn pink">
+                <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6zm-1 1.5L18.5 9H13V3.5zM8 17h8v1.5H8V17zm0-3h8v1.5H8V14zm0-3h5v1.5H8V11z"/></svg>
+                View PDF
+            </a>
+        </div>
+
+        <!-- Problem 4 -->
+        <div class="ps-row">
+            <div class="ps-left">
+                <span class="ps-num">27</span>
+                <div>
+                    <div class="ps-title">AI-Powered Multispectral Disaster Detection System </div>
+                    <div class="ps-track">Media Wave Technologies</div>
+                </div>
+            </div>
+            <a href="src/problemstatements/Media Wave/Hackathon docx-21.pdf" target="_blank" class="ps-btn green">
+                <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6zm-1 1.5L18.5 9H13V3.5zM8 17h8v1.5H8V17zm0-3h8v1.5H8V14zm0-3h5v1.5H8V11z"/></svg>
+                View PDF
+            </a>
+        </div>
+
+        <!-- Problem 5 -->
+        <div class="ps-row">
+            <div class="ps-left">
+                <span class="ps-num">28</span>
+                <div>
+                    <div class="ps-title">AI “Intent Prediction” Engine</div>
+                    <div class="ps-track">iBots.in</div>
+                </div>
+            </div>
+            <a href="src/problemstatements/IBOT/IBOTS-1.pdf" target="_blank" class="ps-btn blue">
+                <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6zm-1 1.5L18.5 9H13V3.5zM8 17h8v1.5H8V17zm0-3h8v1.5H8V14zm0-3h5v1.5H8V11z"/></svg>
+                View PDF
+            </a>
+        </div>
+
+        <!-- Problem 6 -->
+        <div class="ps-row">
+            <div class="ps-left">
+                <span class="ps-num">29</span>
+                <div>
+                    <div class="ps-title">AI for Detecting Manipulative Digital Content</div>
+                    <div class="ps-track">iBots.in</div>
+                </div>
+            </div>
+            <a href="src/problemstatements/IBOT/IBOTS-2.pdf" target="_blank" class="ps-btn purple">
+                <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6zm-1 1.5L18.5 9H13V3.5zM8 17h8v1.5H8V17zm0-3h8v1.5H8V14zm0-3h5v1.5H8V11z"/></svg>
+                View PDF
+            </a>
+        </div>
+        <!-- Problem 5 -->
+        <div class="ps-row">
+            <div class="ps-left">
+                <span class="ps-num">30</span>
+                <div>
+                    <div class="ps-title">Predictive Analytics for Crop Yield Optimization</div>
+                    <div class="ps-track">iBots.in</div>
+
+                </div>
+            </div>
+            <a href="src/problemstatements/IBOT/IBOTS-3.pdf" target="_blank" class="ps-btn blue">
+                <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6zm-1 1.5L18.5 9H13V3.5zM8 17h8v1.5H8V17zm0-3h8v1.5H8V14zm0-3h5v1.5H8V11z"/></svg>
+                View PDF
+            </a>
+        </div>
+<!-- Problem 1 -->
+        <div class="ps-row">
+            <div class="ps-left">
+                <span class="ps-num">31</span>
+                <div>
+                    <div class="ps-title">AI Cognitive Twin</div>
+                    <div class="ps-track">iBots.in</div>
+                </div>
+            </div>
+            <a href="src/problemstatements/IBOT/IBOTS-4.pdf" target="_blank" class="ps-btn blue">
+                <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6zm-1 1.5L18.5 9H13V3.5zM8 17h8v1.5H8V17zm0-3h8v1.5H8V14zm0-3h5v1.5H8V11z"/></svg>
+                View PDF
+            </a>
+        </div>
+        
+
+        <!-- Problem 2 -->
+        <div class="ps-row">
+            <div class="ps-left">
+                <span class="ps-num">32</span>
+                <div>
+                    <div class="ps-title">AI-Powered Secure Cognitive Health Monitoring System</div>
+                    <div class="ps-track">iBots.in</div>
+                </div>
+            </div>
+            <a href="src/problemstatements/IBOT/IBOTS-5.pdf" target="_blank" class="ps-btn purple">
+                <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6zm-1 1.5L18.5 9H13V3.5zM8 17h8v1.5H8V17zm0-3h8v1.5H8V14zm0-3h5v1.5H8V11z"/></svg>
+                View PDF
+            </a>
+        </div>
+
+        <!-- Problem 3 -->
+        <div class="ps-row">
+            <div class="ps-left">
+                <span class="ps-num">33</span>
+                <div>
+                    <div class="ps-title">AI for Predicting Human Curiosity</div>
+                    <div class="ps-track">iBots.in</div>
+                </div>
+            </div>
+            <a href="src/problemstatements/IBOT/IBOTS-6.pdf" target="_blank" class="ps-btn pink">
+                <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6zm-1 1.5L18.5 9H13V3.5zM8 17h8v1.5H8V17zm0-3h8v1.5H8V14zm0-3h5v1.5H8V11z"/></svg>
+                View PDF
+            </a>
+        </div>
+
+        
     </div>
 </section>
 
@@ -1247,68 +1678,85 @@ TREME'26</h1>
     <div class="resources-grid">
 
         <!-- Submission Template -->
-        <a href="#" onclick="handleDownload(event,'Submission Template')" class="resource-btn">
-            <div class="res-icon-wrap">
-                <div class="res-icon-bg blue">📄</div>
-            </div>
-            <div class="res-body">
-                <div class="res-name">Submission Template</div>
-                <div class="res-desc">Official project submission format accepted by judges</div>
-                <div class="res-dl-btn blue">
-                    <svg viewBox="0 0 24 24"><path d="M12 15l-5-5h3V4h4v6h3l-5 5zm-7 4h14v-2H5v2z"/></svg>
-                    <span class="dl-text">Download PDF</span>
-                </div>
-                
-            </div>
-        </a>
+        <a href="src/resources/template.pptx" download class="resource-btn">
+    <div class="res-icon-wrap">
+        <div class="res-icon-bg blue">📄</div>
+    </div>
+
+    <div class="res-body">
+        <div class="res-name">Submission Template</div>
+        <div class="res-desc">
+            Official project submission format accepted by judges
+        </div>
+
+        <div class="res-dl-btn blue">
+            <svg viewBox="0 0 24 24">
+                <path d="M12 15l-5-5h3V4h4v6h3l-5 5zm-7 4h14v-2H5v2z"/>
+            </svg>
+            <span class="dl-text">Download</span>
+        </div>
+    </div>
+</a>
 
         <!-- Rule Book -->
-        <a href="#" onclick="handleDownload(event,'Rule Book')" class="resource-btn">
-            <div class="res-icon-wrap">
-                <div class="res-icon-bg purple">📋</div>
-            </div>
-            <div class="res-body">
-                <div class="res-name">Rule Book</div>
-                <div class="res-desc">Complete guidelines, judging criteria &amp; code of conduct</div>
-                <div class="res-dl-btn purple">
-                    <svg viewBox="0 0 24 24"><path d="M12 15l-5-5h3V4h4v6h3l-5 5zm-7 4h14v-2H5v2z"/></svg>
-                    <span class="dl-text">Download PDF</span>
-                </div>
-                
-            </div>
-        </a>
+        <a href="src/resources/Rulebook.pdf" target="_blank" class="resource-btn" b>
+    <div class="res-icon-wrap">
+        <div class="res-icon-bg purple">📋</div>
+    </div>
+
+    <div class="res-body">
+        <div class="res-name">Rule Book</div>
+        <div class="res-desc">
+            Complete guidelines, judging criteria & code of conduct
+        </div>
+
+        <div class="res-dl-btn purple">
+            <svg viewBox="0 0 24 24">
+<path d="M12 4.5C7 4.5 2.7 7.6 1 12c1.7 4.4 6 7.5 11 7.5s9.3-3.1 11-7.5c-1.7-4.4-6-7.5-11-7.5zm0 12.5a5 5 0 1 1 0-10 5 5 0 0 1 0 10zm0-8a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"/>            </svg>
+            <span class="dl-text">View PDF</span>
+        </div>
+    </div>
+</a>
 
         <!-- Brochure -->
-        <a href="#" onclick="handleDownload(event,'Brochure')" class="resource-btn">
-            <div class="res-icon-wrap">
-                <div class="res-icon-bg pink">📘</div>
-            </div>
-            <div class="res-body">
-                <div class="res-name">Event Brochure</div>
-                <div class="res-desc">Share with your friends — sponsorship &amp; event overview</div>
-                <div class="res-dl-btn pink">
-                    <svg viewBox="0 0 24 24"><path d="M12 15l-5-5h3V4h4v6h3l-5 5zm-7 4h14v-2H5v2z"/></svg>
-                    <span class="dl-text">Download PDF</span>
-                </div>
-                
-            </div>
-        </a>
+        <a href="src/resources/brochure.jpeg" target="_blank" class="resource-btn">
+    <div class="res-icon-wrap">
+        <div class="res-icon-bg pink">📘</div>
+    </div>
+
+    <div class="res-body">
+        <div class="res-name">Event Brochure</div>
+        <div class="res-desc">
+            Share with your friends — sponsorship & event overview
+        </div>
+
+        <div class="res-dl-btn pink">
+            <svg viewBox="0 0 24 24">
+<path d="M12 4.5C7 4.5 2.7 7.6 1 12c1.7 4.4 6 7.5 11 7.5s9.3-3.1 11-7.5c-1.7-4.4-6-7.5-11-7.5zm0 12.5a5 5 0 1 1 0-10 5 5 0 0 1 0 10zm0-8a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"/>            </svg>
+            <span class="dl-text">View PDF</span>
+        </div>
+    </div>
+</a>
 
         <!-- Timeline -->
-        <a href="#" onclick="handleDownload(event,'Event Timeline')" class="resource-btn">
-            <div class="res-icon-wrap">
-                <div class="res-icon-bg green">🗓</div>
-            </div>
-            <div class="res-body">
-                <div class="res-name">Detailed Timeline</div>
-                <div class="res-desc">Full hour-by-hour schedule for both days of the hackathon</div>
-                <div class="res-dl-btn green">
-                    <svg viewBox="0 0 24 24"><path d="M12 15l-5-5h3V4h4v6h3l-5 5zm-7 4h14v-2H5v2z"/></svg>
-                    <span class="dl-text">Download PDF</span>
-                </div>
-                
-            </div>
-        </a>
+        <a href="src/resources/timeLine.pdf" target="_blank" class="resource-btn">
+    <div class="res-icon-wrap">
+        <div class="res-icon-bg green">🗓</div>
+    </div>
+
+    <div class="res-body">
+        <div class="res-name">Detailed Timeline</div>
+        <div class="res-desc">
+            Full hour-by-hour schedule for both days of the hackathon
+        </div>
+
+        <div class="res-dl-btn green">
+            <svg viewBox="0 0 24 24">
+<path d="M12 4.5C7 4.5 2.7 7.6 1 12c1.7 4.4 6 7.5 11 7.5s9.3-3.1 11-7.5c-1.7-4.4-6-7.5-11-7.5zm0 12.5a5 5 0 1 1 0-10 5 5 0 0 1 0 10zm0-8a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"/>            </svg>
+            <span class="dl-text">View PDF</span>
+        </div>
+    </div>
+</a>
 
     </div>
 </section>
@@ -1346,12 +1794,20 @@ TREME'26</h1>
             <div class="faq-question" onclick="toggleFAQ(this)">
                 <span>What are the dates of HackXtreme’26?</span><span class="faq-icon">+</span>
             </div>
-            <div class="faq-answer">HackXtreme’26 will be held on March 7th – 8th, 2026, as a continuous 24-hour hackathon.
+            <div class="faq-answer">HackXtreme’26 will be held on April 9th – 10th, 2026, as a continuous 24-hour hackathon.
 
 </div>
         </div>
     </div>
+
 </section>
+
+  <center>   <button onclick="window.open('https://forms.gle/LrnUVKfXXR5snZqa7', '_blank')" class="cta-btn">Register Now</button>
+</center> 
+<br><br>
+
+
+        
 
 <!-- CONTACT -->
 <section id="contact" style="background:#06060f">
@@ -1359,14 +1815,14 @@ TREME'26</h1>
     <div class="contact-card glass-card">
         <h3>K.Ramakrishnan College Of Engineering</h3>
         <div class="contact-info-row"><span class="c-icon"></span><span>📍 Samayapuram - Kariyamanickam Rd,Tiruchirappalli, Tamil Nadu 621112</span></div>
-        <div class="contact-info-row"><span class="c-icon">✉️</span><span>sivamanikandan2312@gmail.com</span></div>
-        <div class="contact-info-row"><span class="c-icon">📞</span><span>+91 97913 12219</span></div>
+        <div class="contact-info-row"><span class="c-icon">✉️</span><span>hackxtremeorganizations@gmail.com</span></div>
+        <div class="contact-info-row"><span class="c-icon">📞</span><span>+91 97913 12219  || +91 98426 12131</span></div>
         <div class="contact-info-row"><span class="c-icon">🌐</span><span>www.krce.ac.in</span></div>
         <button onclick="window.open('https://www.google.com/maps/dir//K+Ramakrishnan+College+of+Engineering+(KRCE),+Samayapuram+-+Kariyamanickam+Rd,+Tamil+Nadu+621112/@10.8734836,78.6912219,11.44z/data=!4m8!4m7!1m0!1m5!1m1!1s0x3baaf7316aaaaaab:0xb794422e551a89ad!2m2!1d78.7381613!2d10.9290962?entry=ttu&g_ep=EgoyMDI2MDMxOC4xIKXMDSoASAFQAw%3D%3D','_blank')" class="maps-btn">🗺 Open in Google Maps</button>
     </div>
 </section>
 
-<footer>© 2026 NEXUS HACK &nbsp;·&nbsp; Made with ❤️ for the next generation of innovators &nbsp;·&nbsp; Innovate University</footer>
+<footer>© HackXtreme'26 &nbsp;·&nbsp; Made with ❤️ for the next generation of innovators &nbsp;·&nbsp; KRCE</footer>
 
 
 
@@ -1542,7 +1998,7 @@ document.addEventListener('mousemove', e => {
 
 /* ─── COUNTDOWN ─── */
 (function(){
-    const deadline = new Date("2026-03-31T23:59:59").getTime();
+    const deadline = new Date("2026-04-02T23:59:59").getTime();
     function tick(){
         const diff = Math.max(0, deadline - Date.now());
         document.getElementById('days').textContent    = String(Math.floor(diff/86400000)).padStart(2,'0');
@@ -1613,17 +2069,6 @@ function submitForm(e) {
 }
 
 /* ─── RESOURCE DOWNLOAD ─── */
-function handleDownload(e, name) {
-    e.preventDefault();
-    const btn = e.currentTarget;
-    const dlBtn = btn.querySelector('.res-dl-btn');
-    const txt   = dlBtn.querySelector('.dl-text');
-    txt.textContent = '⏳ Preparing...';
-    setTimeout(() => {
-        txt.textContent = '✅ Downloaded!';
-        setTimeout(() => { txt.textContent = 'Download PDF'; }, 2000);
-    }, 900);
-}
 </script>
 </body>
 </html>
